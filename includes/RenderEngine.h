@@ -23,15 +23,14 @@ class RenderEngine : public RenderGroup
     std::vector< std::thread >        _aux;
     Scr                            _screen;
     std::shared_ptr< ShaderProgram > _prog;
-    glm::mat4                        _proj,
-                                     _view;
+    glm::mat4                        _proj;
 
     RenderEngine( float _w, float _h )
     throw( char const * )
     : RenderGroup                   (),
       _term                  { false },
       _screen     ( (int)_w, (int)_h ),
-      _view                    ( 1.f )
+      _proj                    ( 1.f )
     {
 
         glewExperimental = true;
@@ -57,7 +56,6 @@ public:
     {
 
         _proj  = glm::perspective( fov, _w/_h, ncp, fcp );
-        _local = _proj * _view;
 
     }
 
@@ -70,8 +68,8 @@ public:
 
     ) : RenderEngine( _w, _h )
     {
+
         _proj  = glm::ortho( -1.f, 1.f, -1.f,1.f, ncp, fcp );
-        _local = _proj * _view; 
 
     }
 
@@ -105,11 +103,9 @@ public:
     )
     {
 
-        _view = glm::lookAt( glm::vec3( cX,   cY,  cZ ),
-                             glm::vec3( pX,   pY,  pZ ),
-                             glm::vec3( 0.f, dir, 0.f ) );
-
-        _local = _proj * _view;
+        _local = glm::lookAt( glm::vec3( cX,   cY,  cZ ),
+                              glm::vec3( pX,   pY,  pZ ),
+                              glm::vec3( 0.f, dir, 0.f ) );
 
     }
 
@@ -117,8 +113,8 @@ public:
     { 
 
         glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-    
-        for( auto c : children ) c->render( *_prog, _local );
+        
+        RenderGroup::render( *_prog, _proj ); 
 
         _screen.swap(); 
     }
