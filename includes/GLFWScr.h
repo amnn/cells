@@ -16,6 +16,7 @@ public:
     GLFWScr            ( GLFWScr       && )                {}
     GLFWScr &operator= ( GLFWScr       && ) { return *this; }
 
+    void set_title(    const char  	         * ) const;
     void display_link( RenderEngine<GLFWScr> * ) const;
 
     void swap() const;

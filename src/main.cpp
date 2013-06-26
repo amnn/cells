@@ -28,13 +28,6 @@
 
 using namespace std;
 
-/* TODO
-
-* Tween class
-* New BufferPoly constructor initialise from file.
-
-*/
-
 struct xyzuv
 {
 
@@ -68,6 +61,7 @@ int main( int argc, char ** argv )
         shared_ptr<ShaderProgram> prog   ( new ShaderProgram( "assets/vert.glsl", 
                                                               "assets/frag.glsl" ) );
 
+        engine.scr().set_title( "Cells" );
         engine.use_program( prog );
 
         auto cube = new xyzuv[14]

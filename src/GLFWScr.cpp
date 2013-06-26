@@ -20,7 +20,6 @@ GLFWScr::GLFWScr( int width, int height ) throw( char const * )
         glfwTerminate(); throw( "Failed to Open GLFW Window!" );
     }
 
-    glfwSetWindowTitle(      "Fur" );
     glfwEnable(   GLFW_STICKY_KEYS );
     glfwDisable( GLFW_MOUSE_CURSOR );
     glEnable(        GL_DEPTH_TEST );
@@ -32,6 +31,11 @@ GLFWScr::GLFWScr( int width, int height ) throw( char const * )
 GLFWScr::~GLFWScr()
 {
     glfwTerminate();
+}
+
+void GLFWScr::set_title( const char *title ) const
+{    
+    glfwSetWindowTitle( title );
 }
 
 void GLFWScr::display_link( RenderEngine<GLFWScr> *engine ) const
