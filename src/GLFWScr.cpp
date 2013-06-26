@@ -21,7 +21,6 @@ GLFWScr::GLFWScr( int width, int height ) throw( char const * )
     }
 
     glfwEnable(   GLFW_STICKY_KEYS );
-    glfwDisable( GLFW_MOUSE_CURSOR );
     glEnable(        GL_DEPTH_TEST );
     glDepthMask(           GL_TRUE );
     glDepthFunc(         GL_LEQUAL );

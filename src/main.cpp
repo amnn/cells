@@ -62,7 +62,7 @@ int main( int argc, char ** argv )
                                                               "assets/frag.glsl" ) );
 
         engine.scr().set_title( "Cells" );
-        engine.use_program( prog );
+        engine.use_program( prog        );
 
         auto cube = new xyzuv[14]
         {
@@ -99,17 +99,17 @@ int main( int argc, char ** argv )
 
         auto bp_c0 = shared_ptr<BufferPoly>( new BufferPoly( sp_v, sp_e, 20 ) );
 
-        shared_ptr<Renderable> tiger( new BufferPoly::Instance( bp_c0 ) );
+        shared_ptr<Renderable> c0( new BufferPoly::Instance( bp_c0 ) );
 
         delete[] cube; delete[] elems;
 
-        engine.add_child( tiger );
+        engine.add_child( c0 );
 
-        tiger->transform() = glm::scale( glm::mat4(1.f), glm::vec3(0.5f) );
+        c0->transform() = glm::scale( glm::mat4(1.f), glm::vec3(0.5f) );
 
-        tiger->transform() = glm::translate( tiger->transform(), glm::vec3( 0.f,  0.f, 0.f ) );
+        c0->transform() = glm::translate( c0->transform(), glm::vec3( 0.f,  0.f, 0.f ) );
 
-        tiger->callback() = [](Renderable &r, const double &d) {
+        c0->callback()  = [](Renderable &r, const double &d) {
 
             glm::mat4 &mat = r.transform();
 
