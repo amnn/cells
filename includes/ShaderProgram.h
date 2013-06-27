@@ -1,6 +1,8 @@
 #ifndef SHADERPROGRAM_H
 #define SHADERPROGRAM_H
 
+#include <unordered_map>
+
 #include "GL_includes.h"
 
 #include "Shader.h"
@@ -9,28 +11,32 @@ class ShaderProgram
 {
 
     GLuint    _id;
-    GLint  _matID;
+
+    std::unordered_map< std::string, GLint > _syms;
 
 public:
 
-    ShaderProgram() : _id { glCreateProgram() }, _matID { -1 } {};
+    ShaderProgram() : _id { glCreateProgram() } {};
 
     ShaderProgram( const ShaderProgram  & ) = delete;
     ShaderProgram(       ShaderProgram && );
 
     ~ShaderProgram();
 
-    ShaderProgram &operator=( const ShaderProgram  & ) = delete;
-    ShaderProgram &operator=( ShaderProgram       && );
+    ShaderProgram &operator=(  const ShaderProgram  & ) = delete;
+    ShaderProgram &operator=(        ShaderProgram && );
 
-    void         attach_shader( Shader && ) const;
-    void         attach_shader( Shader  & ) const;
+    GLint          operator[]( const std::string    & ) const;
+    void           attrib(     const std::string    & );
+    void           uniform(    const std::string    & );
 
-    void         link()  throw( const char * );
+    void           attach_shader(           Shader && ) const;
+    void           attach_shader(           Shader  & ) const;
 
-    void         use()   const;
-    const GLuint id()    const;
-    const GLuint matID() const;
+    void           link()               throw( const char * );
+
+    void           use()                                const;
+    const GLuint   id()                                 const;
 
 };
 

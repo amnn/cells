@@ -48,7 +48,7 @@ public:
         {
             _poly->bind(); glm::mat4 trn = m * _local;
 
-            glUniformMatrix4fv( p.matID(), 1, GL_FALSE, &trn[0][0] );
+            glUniformMatrix4fv( p["MVP"], 1, GL_FALSE, &trn[0][0] );
             glDrawElements(
 
                 _poly->_fmt, 

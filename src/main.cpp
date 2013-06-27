@@ -66,6 +66,8 @@ int main( int argc, char ** argv )
 
         prog->link();
 
+        prog->uniform( "MVP" );
+
         engine.scr().set_title( "Cells" );
         engine.use_program( prog        );
 

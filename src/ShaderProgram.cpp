@@ -1,5 +1,7 @@
 #include <string>
 #include <fstream>
+#include <unordered_map>
+#include <stdexcept>
 
 #include "GL_includes.h"
 
@@ -10,21 +12,40 @@
 ShaderProgram::ShaderProgram( ShaderProgram &&that )
 {
 
-    std::swap( _id,       that._id );
-    std::swap( _matID, that._matID );
+    std::swap( _id,     that._id );
+    std::swap( _syms, that._syms );
 
 }
+
+ShaderProgram::~ShaderProgram() { glDeleteProgram( _id ); }
 
 ShaderProgram &ShaderProgram::operator=( ShaderProgram &&that )
 {
 
-    std::swap( _id,       that._id );
-    std::swap( _matID, that._matID );
+    std::swap( _id,     that._id );
+    std::swap( _syms, that._syms );
     
-    return                     *this;
+    return                   *this;
 }
 
-ShaderProgram::~ShaderProgram() { glDeleteProgram( _id ); }
+GLint ShaderProgram::operator[]( const std::string & key ) const { 
+
+    try                                 { return _syms.at( key ); }
+    catch( const std::out_of_range &e ) { return              -1; }
+
+}
+
+void ShaderProgram::attrib( const std::string &sym ) {
+
+    _syms[ sym ] = glGetAttribLocation( _id, sym.c_str() );
+
+}
+
+void ShaderProgram::uniform( const std::string &sym ) {
+
+    _syms[ sym ] = glGetUniformLocation( _id, sym.c_str() );
+
+}
 
 void ShaderProgram::attach_shader( Shader &&s ) const { s.attach( _id ); }
 void ShaderProgram::attach_shader( Shader  &s ) const { s.attach( _id ); }
@@ -47,13 +68,8 @@ void ShaderProgram::link() throw ( const char * ) {
         throw( msg );
     }
 
-    _matID = glGetUniformLocation( _id, "MVP" );
-
-    if( _matID == -1 ) throw( "No MVP Uniform in shader!" );
 }
 
 void ShaderProgram::use()           const { glUseProgram(    _id ); }
 
 const GLuint ShaderProgram::id()    const {             return _id; }
-
-const GLuint ShaderProgram::matID() const {          return _matID; }
