@@ -109,12 +109,13 @@ public:
 
     }
 
+    using RenderGroup::render;
     void render() const
     { 
 
         glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
         
-        RenderGroup::render( *_prog, _proj ); 
+        render( *_prog, _proj ); 
 
         _screen.swap(); 
     }
