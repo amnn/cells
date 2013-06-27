@@ -44,7 +44,7 @@ public:
             std::swap( _poly, that._poly ); 
         };
 
-        void render( const ShaderProgram &p, const glm::mat4 &m ) const
+        virtual void render( const ShaderProgram &p, const glm::mat4 &m ) const
         {
             _poly->bind(); glm::mat4 trn = m * _local;
 
@@ -80,7 +80,7 @@ public:
             std::swap( _tex, that._tex );
         };
 
-        void render( const ShaderProgram &p, const glm::mat4 &m ) const
+        virtual void render( const ShaderProgram &p, const glm::mat4 &m ) const
         {
             _tex->bind(); Instance::render( p, m );
         }
