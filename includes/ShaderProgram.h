@@ -9,11 +9,6 @@ class ShaderProgram
     GLuint    _id;
     GLint  _matID;
 
-protected:
-
-    static void read( const char *, std::string & )    throw( const char * );
-    static void compile_shader( GLuint, const char * ) throw( const char * );
-
 public:
 
     ShaderProgram() : _id { 0 }, _matID { -1 } {};

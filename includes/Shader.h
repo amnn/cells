@@ -1,6 +1,8 @@
 #ifndef SHADER_H
 #define SHADER_H
 
+#include <iostream>
+
 #include "GL_includes.h"
 
 class Shader {
@@ -15,8 +17,8 @@ protected:
 public:
 
     Shader( GLenum );
-    Shader( GLenum, GLuint, const char * )          throw ( const char * );
-    Shader( GLenum, const char * )                  throw ( const char * );
+    Shader( GLenum,         const char * );
+    Shader( GLenum, GLuint, const char * );
 
     Shader( const Shader  & ) = delete;
     Shader(       Shader && );

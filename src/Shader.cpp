@@ -1,5 +1,6 @@
 #include <string>
 #include <fstream>
+#include <iostream>
 
 #include "GL_includes.h"
 
@@ -31,14 +32,12 @@ Shader::Shader( GLenum target )
                                     {}
 
 Shader::Shader( GLenum target, const char * loc ) 
-throw ( const char * )
 : Shader( target ) 
 { 
     compile( loc );
 }
 
-Shader::Shader( GLenum target, GLuint prog, const char * loc ) 
-throw ( const char * )
+Shader::Shader( GLenum target, GLuint prog, const char * loc )
 : Shader( target, loc )
 {
     attach( prog );
@@ -54,15 +53,17 @@ Shader &Shader::operator=( Shader && that ) {
     return                       *this;
 }
 
-void Shader::compile( const char * loc ) const 
-throw ( const char * )
+void Shader::compile( const char * loc ) const throw( const char * )
 {
     std::string src; GLint res;
     Shader::read(   loc, src );
+    
     const char * srcRaw = src.c_str();
 
-
     glShaderSource( _id,        1, &srcRaw, NULL );
+
+    glCompileShader( _id );
+
     glGetShaderiv(  _id, GL_COMPILE_STATUS, &res );
 
     if( res != GL_TRUE )
