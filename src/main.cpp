@@ -58,8 +58,8 @@ int main( int argc, char ** argv )
 
     try {
 
-        RenderEngine<GLFWScr>     engine ( width, height, FOV, NCP, FCP );
-        shared_ptr<ShaderProgram> prog   (            new ShaderProgram );
+        RenderEngine<GLFWScr>     engine ( width, height, NCP, FCP );
+        shared_ptr<ShaderProgram> prog   (       new ShaderProgram );
 
         prog->attach_shader( Shader( GL_VERTEX_SHADER,   "assets/vert.glsl" ) );
         prog->attach_shader( Shader( GL_FRAGMENT_SHADER, "assets/frag.glsl" ) );
