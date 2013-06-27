@@ -7,39 +7,6 @@
 
 #include "ShaderProgram.h"
 
-ShaderProgram::ShaderProgram( const char * vs_file, const char * fs_file ) throw( char const * )
-{
-
-    _id = glCreateProgram();
-
-    Shader( GL_VERTEX_SHADER,   _id, vs_file );
-    Shader( GL_FRAGMENT_SHADER, _id, fs_file );
-
-    glLinkProgram(    _id );
-    
-    GLint res;
-    glGetProgramiv( _id, GL_LINK_STATUS, &res );
-
-    if( res != GL_TRUE )
-    {
-        int logLength;
-
-        glGetProgramiv(      _id, GL_INFO_LOG_LENGTH, &logLength );
-
-        char *msg = new char[logLength];
-        
-        glGetProgramInfoLog( _id, logLength, NULL,           msg );
-        
-        throw( msg );
-
-    }
-
-    _matID = glGetUniformLocation( _id, "MVP" );
-
-    if( _matID == -1 ) throw( "No MVP Uniform in shader!" );
-
-}
-
 ShaderProgram::ShaderProgram( ShaderProgram &&that )
 {
 
@@ -57,7 +24,33 @@ ShaderProgram &ShaderProgram::operator=( ShaderProgram &&that )
     return                     *this;
 }
 
-ShaderProgram::~ShaderProgram()           { glDeleteProgram( _id ); }
+ShaderProgram::~ShaderProgram() { glDeleteProgram( _id ); }
+
+void ShaderProgram::attach_shader( Shader &&s ) const { s.attach( _id ); }
+void ShaderProgram::attach_shader( Shader  &s ) const { s.attach( _id ); }
+
+void ShaderProgram::link() throw ( const char * ) { 
+    glLinkProgram(   _id ); 
+
+    GLint res;
+    glGetProgramiv( _id, GL_LINK_STATUS, &res );
+
+    if( res != GL_TRUE )
+    {
+        int logLength;
+        glGetProgramiv(      _id, GL_INFO_LOG_LENGTH, &logLength );
+
+        char *msg = new char[logLength];
+
+        glGetProgramInfoLog( _id,           logLength, NULL, msg );
+
+        throw( msg );
+    }
+
+    _matID = glGetUniformLocation( _id, "MVP" );
+
+    if( _matID == -1 ) throw( "No MVP Uniform in shader!" );
+}
 
 void ShaderProgram::use()           const { glUseProgram(    _id ); }
 

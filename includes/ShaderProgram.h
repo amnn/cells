@@ -3,6 +3,8 @@
 
 #include "GL_includes.h"
 
+#include "Shader.h"
+
 class ShaderProgram
 {
 
@@ -11,8 +13,7 @@ class ShaderProgram
 
 public:
 
-    ShaderProgram() : _id { 0 }, _matID { -1 } {};
-    ShaderProgram( const char *, const char * ) throw( char const * );
+    ShaderProgram() : _id { glCreateProgram() }, _matID { -1 } {};
 
     ShaderProgram( const ShaderProgram  & ) = delete;
     ShaderProgram(       ShaderProgram && );
@@ -21,6 +22,11 @@ public:
 
     ShaderProgram &operator=( const ShaderProgram  & ) = delete;
     ShaderProgram &operator=( ShaderProgram       && );
+
+    void         attach_shader( Shader && ) const;
+    void         attach_shader( Shader  & ) const;
+
+    void         link()  throw( const char * );
 
     void         use()   const;
     const GLuint id()    const;

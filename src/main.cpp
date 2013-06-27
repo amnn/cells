@@ -12,6 +12,7 @@
 
 #include "Renderable.h"
 #include "RenderEngine.h"
+#include "Shader.h"
 #include "ShaderProgram.h"
 #include "BufferPoly.h"
 #include "Buffer.h"
@@ -57,9 +58,13 @@ int main( int argc, char ** argv )
 
     try {
 
-        RenderEngine<GLFWScr>     engine            ( width, height, FOV, NCP, FCP );
-        shared_ptr<ShaderProgram> prog   ( new ShaderProgram( "assets/vert.glsl", 
-                                                              "assets/frag.glsl" ) );
+        RenderEngine<GLFWScr>     engine ( width, height, FOV, NCP, FCP );
+        shared_ptr<ShaderProgram> prog   (            new ShaderProgram );
+
+        prog->attach_shader( Shader( GL_VERTEX_SHADER,   "assets/vert.glsl" ) );
+        prog->attach_shader( Shader( GL_FRAGMENT_SHADER, "assets/frag.glsl" ) );
+
+        prog->link();
 
         engine.scr().set_title( "Cells" );
         engine.use_program( prog        );
