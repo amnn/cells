@@ -69,7 +69,7 @@ int main( int argc, char ** argv )
         prog->uniform( "MVP" );
 
         engine.scr().set_title( "Cells" );
-        engine.use_program( prog        );
+        engine.use_program(        prog );
 
         auto cube = new xyzuv[14]
         {
@@ -87,7 +87,6 @@ int main( int argc, char ** argv )
             { { -1.f, -1.f, -1.f } }, //4
             { {  1.f, -1.f, -1.f } }, //5
             { {  1.f, -1.f, -1.f } }  //5
-
 
         };
 
@@ -125,7 +124,7 @@ int main( int argc, char ** argv )
         };
 
         engine.look_at( 0.f, 0.f, 10.f,
-                        0.f, 1.f,  0.f,
+                        0.f, 0.f,  0.f,
                                    1.f );
 
         engine.draw_loop();
