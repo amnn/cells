@@ -61,8 +61,8 @@ int main( int argc, char ** argv )
         RenderEngine<PixelatedScr> engine ( width, height, NCP, FCP );
         shared_ptr<ShaderProgram>  prog   (       new ShaderProgram );
 
-        prog->attach_shader( Shader( GL_VERTEX_SHADER,   "assets/vert.glsl" ) );
-        prog->attach_shader( Shader( GL_FRAGMENT_SHADER, "assets/frag.glsl" ) );
+        prog->attach_shader( { GL_VERTEX_SHADER,   "assets/vert.glsl" } );
+        prog->attach_shader( { GL_FRAGMENT_SHADER, "assets/frag.glsl" } );
 
         prog->link();
 
@@ -71,30 +71,24 @@ int main( int argc, char ** argv )
         engine.scr().set_title( "Cells" );
         engine.use_program(        prog );
 
-        auto cube = new xyzuv[14]
+        auto cube = new xyzuv[8]
         {
-            { {  1.f,  1.f,  1.f } }, //0
-            { { -1.f,  1.f,  1.f } }, //2
-            { { -1.f,  1.f, -1.f } }, //7
-            { {  1.f,  1.f, -1.f } }, //6
-            { {  1.f, -1.f,  1.f } }, //1
-            { {  1.f, -1.f,  1.f } }, //1
-            { {  1.f, -1.f,  1.f } }, //1
-            { { -1.f, -1.f,  1.f } }, //3
-            { { -1.f, -1.f,  1.f } }, //3
-            { { -1.f, -1.f,  1.f } }, //3
-            { { -1.f, -1.f, -1.f } }, //4
-            { { -1.f, -1.f, -1.f } }, //4
-            { {  1.f, -1.f, -1.f } }, //5
-            { {  1.f, -1.f, -1.f } }  //5
+            { {  1.f,  1.f,  1.f } }, //0 0
+            { { -1.f,  1.f,  1.f } }, //2 1
+            { { -1.f,  1.f, -1.f } }, //7 2
+            { {  1.f,  1.f, -1.f } }, //6 3
+            { {  1.f, -1.f,  1.f } }, //1 4
+            { { -1.f, -1.f,  1.f } }, //3 5
+            { { -1.f, -1.f, -1.f } }, //4 6
+            { {  1.f, -1.f, -1.f } }, //5 7
 
         };
 
-        auto elems = new GLuint[20] { 4, 7, 0, 1, 3, 2, 12, 11, 6, 9, 
-                                      65535, 5, 13, 0, 3, 
-                                      65535, 2, 1, 10, 8 };
+        auto elems = new GLuint[20] { 4, 5, 0, 1, 3, 2, 7, 6, 4, 5, 
+                                      65535, 4, 7, 0, 3, 
+                                      65535, 2, 1, 6, 5 };
 
-        auto v     = new Buffer<  xyzuv > (         GL_ARRAY_BUFFER, 14, 
+        auto v     = new Buffer<  xyzuv > (          GL_ARRAY_BUFFER, 8, 
                                                    cube, GL_STATIC_DRAW );
 
         auto e     = new Buffer< GLuint > ( GL_ELEMENT_ARRAY_BUFFER, 20, 

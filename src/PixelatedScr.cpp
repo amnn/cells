@@ -6,7 +6,7 @@
 
 #include "PixelatedScr.h"
 
-#define SF 2
+#define SF 1
  
 PixelatedScr::PixelatedScr( GLsizei width, GLsizei height ) 
 throw (                const char * ) 
@@ -68,10 +68,10 @@ void PixelatedScr::display_link( RenderEngine<PixelatedScr> * engine ) const
 
         engine->render();
 
-        glBindFramebuffer( GL_DRAW_FRAMEBUFFER,         0 );
+        glBindFramebuffer( GL_DRAW_FRAMEBUFFER,    0 );
 
-        glBlitFramebuffer(                          0, 0, _w  ,   _h,
-                                                    0, 0, SF*_w, SF*_h,
+        glBlitFramebuffer(                        0, 0,    _w,    _h,
+                                                  0, 0, SF*_w, SF*_h,
                            GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT, 
                                                           GL_NEAREST );
         
