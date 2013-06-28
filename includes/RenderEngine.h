@@ -117,7 +117,6 @@ public:
         
         render( *_prog, _proj ); 
 
-        _screen.swap(); 
     }
 
 };

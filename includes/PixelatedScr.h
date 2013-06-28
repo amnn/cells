@@ -7,13 +7,15 @@
 
 class PixelatedScr : public GLFWScr {
 
-	GLuint _loResFBO;
+    GLuint  _loResFBO, _buffs[2];
+    GLsizei               _w, _h;
 
 public:
-	
-	PixelatedScr( int, int ) throw ( const char * );
-	
-	void display_link( RenderEngine<PixelatedScr> * ) const;		
+    
+    PixelatedScr( int, int ) throw ( const char * );
+    ~PixelatedScr();
+    
+    void display_link( RenderEngine<PixelatedScr> * ) const;        
 
 };
 

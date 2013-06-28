@@ -17,7 +17,7 @@
 #include "BufferPoly.h"
 #include "Buffer.h"
 #include "Texture.h"
-#include "GLFWScr.h"
+#include "PixelatedScr.h"
 
 #define FOV_MAX   90.f
 #define FOV       45.f
@@ -58,8 +58,8 @@ int main( int argc, char ** argv )
 
     try {
 
-        RenderEngine<GLFWScr>     engine ( width, height, NCP, FCP );
-        shared_ptr<ShaderProgram> prog   (       new ShaderProgram );
+        RenderEngine<PixelatedScr> engine ( width, height, NCP, FCP );
+        shared_ptr<ShaderProgram>  prog   (       new ShaderProgram );
 
         prog->attach_shader( Shader( GL_VERTEX_SHADER,   "assets/vert.glsl" ) );
         prog->attach_shader( Shader( GL_FRAGMENT_SHADER, "assets/frag.glsl" ) );
