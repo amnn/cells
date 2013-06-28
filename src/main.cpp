@@ -19,13 +19,13 @@
 #include "Texture.h"
 #include "PixelatedScr.h"
 
-#define FOV_MAX   90.f
-#define FOV       45.f
-#define FOV_MIN   10.f
-#define NCP       0.1f
-#define FCP      100.f
-#define TRN_SPD  0.01f
-#define ROT_SPD    1.f
+#define FOV_MAX    90.f
+#define FOV        45.f
+#define FOV_MIN    10.f
+#define NCP        0.1f
+#define FCP      1000.f
+#define TRN_SPD   0.01f
+#define ROT_SPD     1.f
 
 using namespace std;
 
@@ -105,9 +105,14 @@ int main( int argc, char ** argv )
 
         engine.add_child( c0 );
 
-        c0->transform() = glm::scale( glm::mat4(1.f), glm::vec3(0.5f) );
+        c0->transform() = glm::scale( glm::mat4(1.f), glm::vec3(20.f) );
 
-        c0->transform() = glm::translate( c0->transform(), glm::vec3( 0.f,  0.f, 0.f ) );
+        c0->transform() = glm::translate(                  c0->transform(), 
+                                          glm::vec3( width  / ( 2 * 20.f ), 
+                                                     height / ( 2 * 20.f ), 
+                                                                       0.f 
+                                                   ) 
+                                        );
 
         c0->callback()  = [](Renderable &r, const double &d) {
 

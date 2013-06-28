@@ -12,7 +12,7 @@ GLFWScr::GLFWScr( int width, int height ) throw( char const * )
     glewExperimental = true;
 
     if( !glfwInit() ) { throw( "Failed to Initialize GLFW!" ); }
-
+    glfwOpenWindowHint( GLFW_WINDOW_NO_RESIZE,                      GL_TRUE );
     glfwOpenWindowHint( GLFW_OPENGL_VERSION_MAJOR,                        3 );
     glfwOpenWindowHint( GLFW_OPENGL_VERSION_MINOR,                        2 );
     glfwOpenWindowHint( GLFW_OPENGL_PROFILE,       GLFW_OPENGL_CORE_PROFILE );

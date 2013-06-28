@@ -6,16 +6,15 @@
 
 #include "PixelatedScr.h"
 
-#define SF 1
+#define SF 4
  
 PixelatedScr::PixelatedScr( GLsizei width, GLsizei height ) 
 throw (                const char * ) 
-: GLFWScr   ( SF * width, SF * height ),
+: GLFWScr ( SF * width, SF * height ),
           _w { width }, _h { height }
 {
-    
-    GLint firstFBO; glGetIntegerv( GL_FRAMEBUFFER_BINDING, &firstFBO );
-    std::cout << "First FBO " << firstFBO << std::endl;
+   
+    glViewport( 0, 0, _w, _h );
 
     glGenFramebuffers(  1, & _loResFBO ); 
     glGenRenderbuffers( 2, & _buffs[0] );
@@ -40,12 +39,6 @@ throw (                const char * )
                               GL_RENDERBUFFER ,
                                     _buffs[1] );
    
-    GLenum res = glCheckFramebufferStatus( GL_FRAMEBUFFER );
-
-    std::cout << res << " " << GL_FRAMEBUFFER_COMPLETE << std::endl;
-
-    GLenum err = glGetError(); std::cout << err << " " << GL_NO_ERROR << std::endl;
-
     glBindFramebuffer( GL_FRAMEBUFFER, 0 );
 }
 

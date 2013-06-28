@@ -69,7 +69,7 @@ public:
     ) : RenderEngine( _w, _h )
     {
 
-        _proj  = glm::ortho( -1.f, 1.f, -1.f,1.f, ncp, fcp );
+        _proj  = glm::ortho( 0.f, _w, 0.f, _h, ncp, fcp );
 
     }
 
