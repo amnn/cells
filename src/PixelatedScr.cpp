@@ -14,7 +14,7 @@ throw (                const char * )
           _w { width }, _h { height }
 {
    
-    glViewport( 0, 0, _w, _h );
+    glViewport(           0, 0, _w, _h );
 
     glGenFramebuffers(  1, & _loResFBO ); 
     glGenRenderbuffers( 2, & _buffs[0] );

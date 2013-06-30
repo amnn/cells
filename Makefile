@@ -1,6 +1,6 @@
 CC         = g++-4.7 --std=c++0x
 GLEW 	   = `pkg-config --libs glew`
-GLFW 	   = `pkg-config --libs libglfw`
+GLFW 	   = `pkg-config --libs glfw3`
 DEST 	   = bin/cells
 INCLUDES   = -Iincludes
 SRCFILES   = src/*

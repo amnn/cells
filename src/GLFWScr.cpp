@@ -24,7 +24,9 @@ GLFWScr::GLFWScr( int width, int height ) throw( char const * )
 
     if( glewInit() != GLEW_OK ) { throw( "Failed to Initialize GLEW!" ); }
 
-    glGetError(); // To clear error produced by glewExperimental bug. 
+    // To clear error produced by glewExperimental bug. 
+    while( GL_NO_ERROR != glGetError() ); 
+
     glfwEnable(   GLFW_STICKY_KEYS );
     glEnable(        GL_DEPTH_TEST );
     glDepthMask(           GL_TRUE );
