@@ -7,6 +7,9 @@
 #include "PixelatedScr.h"
 
 #define SF 4
+
+// FIXME: Moving screen causes pixelated rendering to fail.
+// FIXME: Minimising screen or being covered messes up swap interval.
  
 PixelatedScr::PixelatedScr( GLsizei width, GLsizei height ) 
 throw (                const char * ) 
@@ -62,6 +65,7 @@ void PixelatedScr::display_link( RenderEngine<PixelatedScr> * engine ) const
         engine->render();
 
         glBindFramebuffer( GL_DRAW_FRAMEBUFFER,    0 );
+        glDrawBuffer(                        GL_BACK );
 
         glBlitFramebuffer(                        0, 0,    _w,    _h,
                                                   0, 0, SF*_w, SF*_h,
@@ -78,7 +82,7 @@ void PixelatedScr::display_link( RenderEngine<PixelatedScr> * engine ) const
 
 
         engine->thrd_rel();
-
+        
     } 
     while( glfwGetKey( _win, GLFW_KEY_ESCAPE ) != GLFW_PRESS && 
            !glfwWindowShouldClose( _win )
