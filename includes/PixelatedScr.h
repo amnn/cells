@@ -12,6 +12,8 @@ class PixelatedScr : public GLFWScr {
 
 public:
     
+    static void window_moved( GLFWwindow *, int, int );
+
     PixelatedScr( int, int ) throw ( const char * );
     ~PixelatedScr();
     

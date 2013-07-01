@@ -24,7 +24,8 @@ GLFWScr::GLFWScr( int width, int height ) throw( char const * )
 
     if( !_win ) { glfwTerminate(); throw( "Failed to Open GLFW Window!" ); }
 
-    glfwMakeContextCurrent( _win );
+    glfwMakeContextCurrent(         _win );
+    glfwSetWindowUserPointer( _win, this );
 
     if( glewInit() != GLEW_OK ) {  throw(  "Failed to Initialize GLEW!" ); }
 
