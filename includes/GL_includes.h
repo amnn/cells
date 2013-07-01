@@ -2,7 +2,7 @@
 #define GL_INCLUDES_H
 
 #include <GL/glew.h>
-#include <GL/glfw.h>
+#include <GLFW/glfw3.h>
 #include <OpenGl/gl.h>
 
 #endif

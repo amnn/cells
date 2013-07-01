@@ -11,7 +11,6 @@ class Texture
 
 public:
 
-    Texture( GLenum, const char * ) throw( const char * );
     ~Texture();
 
     Texture( Texture && );

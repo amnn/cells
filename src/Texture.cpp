@@ -6,22 +6,6 @@
 
 Texture::Texture( GLenum target ) : _target { target } { glGenTextures( 1, &_id ); }
 
-Texture::Texture( GLenum target, const char *path ) throw( const char * )
-: Texture( target )
-{
-
-    bind();
-
-    if( glfwLoadTexture2D( "assets/textures/fur.tga", 0 ) )
-    {
-
-        glGenerateMipmap( target );
-
-    } else throw( "Could not load Texture!" );
-
-
-}
-
 Texture::~Texture() { glDeleteTextures( 1, &_id ); }
 
 Texture::Texture( Texture &&that )

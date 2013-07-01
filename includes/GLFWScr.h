@@ -1,10 +1,13 @@
 #ifndef GLFWSCR_H
 #define GLFWSCR_H
 
+#include "GL_includes.h"
+
 #include "RenderEngine.h"
 
 class GLFWScr {
-    
+
+
 public:
 
     GLFWScr( int , int ) throw( char const * );
@@ -21,6 +24,10 @@ public:
 
     void swap() const;
 
+protected:
+
+	GLFWwindow *_win;
+	
 };
 
 #endif

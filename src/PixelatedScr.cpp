@@ -80,6 +80,8 @@ void PixelatedScr::display_link( RenderEngine<PixelatedScr> * engine ) const
         engine->thrd_rel();
 
     } 
-    while( glfwGetKey( GLFW_KEY_ESC ) != GLFW_PRESS && glfwGetWindowParam( GLFW_OPENED ) );
+    while( glfwGetKey( _win, GLFW_KEY_ESCAPE ) != GLFW_PRESS && 
+           !glfwWindowShouldClose( _win )
+         );
 
 }

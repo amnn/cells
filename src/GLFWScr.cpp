@@ -12,25 +12,29 @@ GLFWScr::GLFWScr( int width, int height ) throw( char const * )
     glewExperimental = true;
 
     if( !glfwInit() ) { throw( "Failed to Initialize GLFW!" ); }
-    glfwOpenWindowHint( GLFW_WINDOW_NO_RESIZE,                      GL_TRUE );
-    glfwOpenWindowHint( GLFW_OPENGL_VERSION_MAJOR,                        3 );
-    glfwOpenWindowHint( GLFW_OPENGL_VERSION_MINOR,                        2 );
-    glfwOpenWindowHint( GLFW_OPENGL_PROFILE,       GLFW_OPENGL_CORE_PROFILE );
 
-    if( !glfwOpenWindow( width, height, 0,0,0,0, 32,0, GLFW_WINDOW ) )
-    {
-        glfwTerminate(); throw( "Failed to Open GLFW Window!" );
-    }
+    glfwWindowHint( GLFW_RESIZABLE,                             GL_FALSE );
+    glfwWindowHint( GLFW_DEPTH_BITS,                                  32 );
+    glfwWindowHint( GLFW_CONTEXT_VERSION_MAJOR,                        3 );
+    glfwWindowHint( GLFW_CONTEXT_VERSION_MINOR,                        2 );
+    glfwWindowHint( GLFW_OPENGL_FORWARD_COMPAT,                  GL_TRUE );
+    glfwWindowHint( GLFW_OPENGL_PROFILE,        GLFW_OPENGL_CORE_PROFILE );
 
-    if( glewInit() != GLEW_OK ) { throw( "Failed to Initialize GLEW!" ); }
+    _win = glfwCreateWindow( width, height, "", NULL, NULL );
+
+    if( !_win ) { glfwTerminate(); throw( "Failed to Open GLFW Window!" ); }
+
+    glfwMakeContextCurrent( _win );
+
+    if( glewInit() != GLEW_OK ) {  throw(  "Failed to Initialize GLEW!" ); }
 
     // To clear error produced by glewExperimental bug. 
     while( GL_NO_ERROR != glGetError() ); 
 
-    glfwEnable(   GLFW_STICKY_KEYS );
-    glEnable(        GL_DEPTH_TEST );
-    glDepthMask(           GL_TRUE );
-    glDepthFunc(         GL_LEQUAL );
+    glfwSetInputMode( _win, GLFW_STICKY_KEYS, GL_TRUE );
+    glEnable(                           GL_DEPTH_TEST );
+    glDepthMask(                              GL_TRUE );
+    glDepthFunc(                            GL_LEQUAL );
 
 }
 
@@ -41,7 +45,7 @@ GLFWScr::~GLFWScr()
 
 void GLFWScr::set_title( const char *title ) const
 {    
-    glfwSetWindowTitle( title );
+    glfwSetWindowTitle( _win, title );
 }
 
 void GLFWScr::display_link( RenderEngine<GLFWScr> *engine ) const
@@ -66,10 +70,11 @@ void GLFWScr::display_link( RenderEngine<GLFWScr> *engine ) const
 
 
         engine->thrd_rel();
-
     } 
-    while( glfwGetKey( GLFW_KEY_ESC ) != GLFW_PRESS && glfwGetWindowParam( GLFW_OPENED ) );
+    while( glfwGetKey( _win, GLFW_KEY_ESCAPE ) != GLFW_PRESS && 
+           !glfwWindowShouldClose( _win )
+         );
 
 }
 
-void GLFWScr::swap() const { glfwSwapBuffers(); }
+void GLFWScr::swap() const { glfwSwapBuffers( _win ); glfwPollEvents(); }
