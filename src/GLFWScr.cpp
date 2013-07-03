@@ -53,9 +53,12 @@ void GLFWScr::display_link( RenderEngine<GLFWScr> *engine ) const
 {
 
     double last  = glfwGetTime(),
+           acc,
            now,
            delta;
     
+    static const double TICK_STEP = 1.0/60;
+
     do { 
 
         engine->thrd_req(); 
@@ -65,10 +68,13 @@ void GLFWScr::display_link( RenderEngine<GLFWScr> *engine ) const
 
         now   = glfwGetTime();
         delta =    now - last;
-        last  =           now;
 
-        engine->tick( delta );
+        while( delta >= 0 ) {
+            engine->tick( std::min( delta, TICK_STEP ) );
+            delta -= TICK_STEP;
+        }
 
+        last = glfwGetTime();
 
         engine->thrd_rel();
     } 

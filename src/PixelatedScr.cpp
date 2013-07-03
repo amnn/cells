@@ -6,9 +6,7 @@
 
 #include "PixelatedScr.h"
 
-#define SF 2
-
-// FIXME: Minimising screen or being covered messes up swap interval.
+#define SF 4
 
 void PixelatedScr::window_moved( GLFWwindow *win, int x, int y ) {
 
@@ -64,14 +62,16 @@ void PixelatedScr::display_link( RenderEngine<PixelatedScr> * engine ) const
 {
 
     double last  = glfwGetTime(),
+           acc,
            now,
            delta;
 
-    glClearColor( 1.f, 0.f, 0.f, 1.f );
+    static const double TICK_STEP = 1.0/60;
 
     do { 
 
         engine->thrd_req();
+
         glBindFramebuffer( GL_FRAMEBUFFER, _loResFBO );
 
         engine->render();
@@ -88,11 +88,15 @@ void PixelatedScr::display_link( RenderEngine<PixelatedScr> * engine ) const
         
         now   = glfwGetTime();
         delta =    now - last;
-        last  =           now;
 
-        engine->tick( delta );
+        while( delta >= 0 ) {
+            engine->tick( std::min( delta, TICK_STEP ) );
+            delta -= TICK_STEP;
 
+        }
 
+        last = glfwGetTime();
+        
         engine->thrd_rel();
         
     } 
