@@ -15,6 +15,8 @@
 class BufferPoly 
 {
 
+    static GLuint                   _currentBinding;
+
     GLuint                                   _vaoID;
     GLenum                                     _fmt;
     std::vector< std::shared_ptr<void> > _tiedBuffs;
@@ -116,7 +118,14 @@ public:
     BufferPoly            ( const BufferPoly &that ) = delete;
     BufferPoly &operator= ( const BufferPoly &that ) = delete;
 
-    void bind() const { glBindVertexArray( _vaoID ); };
+    void bind() const { 
+    
+        if( _currentBinding == _vaoID ) return;
+    
+        _currentBinding =  _vaoID;
+        glBindVertexArray( _vaoID ); 
+    
+    };
 
     template <class S>
     void add_array( std::shared_ptr< Buffer<S> > &v )
@@ -151,5 +160,7 @@ public:
     friend class Instance;
 
 };
+
+GLuint BufferPoly::_currentBinding = 0;
 
 #endif
