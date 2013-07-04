@@ -82,22 +82,19 @@ int main( int argc, char ** argv )
 
         auto elems = new GLuint[4] { 0, 1, 2, 3 };
 
-        auto v     = new Buffer<     xy > (         GL_ARRAY_BUFFER, 4, 
-                                                  quad, GL_STATIC_DRAW );
+        auto v = make_shared<     Buffer<xy> >(          GL_ARRAY_BUFFER, 
+                                                 4, quad, GL_STATIC_DRAW );
+        
+        auto e = make_shared< Buffer<GLuint> >(  GL_ELEMENT_ARRAY_BUFFER, 
+                                                4, elems, GL_STATIC_DRAW );
 
-        auto e     = new Buffer< GLuint > ( GL_ELEMENT_ARRAY_BUFFER, 4, 
-                                                 elems, GL_STATIC_DRAW );
+        auto bp_q0 = make_shared<BufferPoly>(        v, e, 20 );
 
-        shared_ptr< Buffer<     xy > > sp_v( v );
-        shared_ptr< Buffer< GLuint > > sp_e( e );
-
-        auto bp_q0 = shared_ptr<BufferPoly>( new BufferPoly( sp_v, sp_e, 20 ) );
-
-        shared_ptr<Renderable> q0( new BufferPoly::Instance( bp_q0 ) );
+        auto in_q0 = make_shared<BufferPoly::Instance>( bp_q0 );
 
         delete[] quad; delete[] elems;
 
-        engine.add_child( q0 );
+        engine.add_child( in_q0 );
 
         engine.look_at( 0.f, 0.f, 10.f,
                         0.f, 0.f,  0.f,
