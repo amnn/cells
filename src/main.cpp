@@ -29,6 +29,11 @@
 
 using namespace std;
 
+// TODO: BufferPoly without indices.
+// TODO: BufferPoly layout for multiple programs.
+// TODO: Noise class (child of Texture).
+
+
 struct xy
 {
 
@@ -87,7 +92,7 @@ int main( int argc, char ** argv )
         auto e = make_shared< Buffer<GLuint> >(  GL_ELEMENT_ARRAY_BUFFER, 
                                                 4, elems, GL_STATIC_DRAW );
 
-        auto bp_q0 = make_shared<BufferPoly>(                  v, e, 20 );
+        auto bp_q0 = make_shared<BufferPoly>(                   v, e, 4 );
         shared_ptr<Renderable> in_q0( new BufferPoly::Instance( bp_q0 ) );
 
         delete[] quad; delete[] elems;
