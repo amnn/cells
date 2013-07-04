@@ -1,8 +1,12 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
+#include <unordered_map>
+
 class Texture
 {
+
+    static std::unordered_map< GLenum, GLuint > _bindings;
 
     GLuint     _id;
     GLenum _target;

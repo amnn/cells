@@ -73,11 +73,10 @@ int main( int argc, char ** argv )
 
         auto quad = new xy[4]
         {
-            { { 0.f  ,    0.f } },
-            { { width,    0.f } },
-            { { 0.f  , height } },
-            { { width, height } }
-
+            { { 0.f   ,    0.f } },
+            { { width ,    0.f } },
+            { { 0.f   , height } },
+            { { width , height } }
         };
 
         auto elems = new GLuint[4] { 0, 1, 2, 3 };
@@ -88,9 +87,8 @@ int main( int argc, char ** argv )
         auto e = make_shared< Buffer<GLuint> >(  GL_ELEMENT_ARRAY_BUFFER, 
                                                 4, elems, GL_STATIC_DRAW );
 
-        auto bp_q0 = make_shared<BufferPoly>(        v, e, 20 );
-
-        auto in_q0 = make_shared<BufferPoly::Instance>( bp_q0 );
+        auto bp_q0 = make_shared<BufferPoly>(                  v, e, 20 );
+        shared_ptr<Renderable> in_q0( new BufferPoly::Instance( bp_q0 ) );
 
         delete[] quad; delete[] elems;
 
