@@ -1,6 +1,8 @@
 #ifndef BUFFER_H
 #define BUFFER_H
 
+#include <unordered_map>
+
 #include "GL_includes.h"
 
 enum BufferAttrib {
@@ -10,8 +12,17 @@ enum BufferAttrib {
     ATTRIB_TEXUV = 3
 };
 
+class _BufferBindings {
+protected:
+
+    static std::unordered_map< GLenum, GLuint > _bindings;
+
+};
+
+std::unordered_map< GLenum, GLuint > _BufferBindings::_bindings {};
+
 template <class S>
-class Buffer {
+class Buffer : public _BufferBindings {
 
     GLuint _id, _target;
 
@@ -36,8 +47,28 @@ public:
                                                           return *this; }
     Buffer &operator=( Buffer & )                             = delete;
 
-    void           bind()   const      {  glBindBuffer( _target, _id ); }
     const GLenum & target() const      { return                _target; }
+
+    void bind( GLenum target ) {
+
+        _bindings[ _target ] =      0;
+        _target              = target;
+
+        bind();
+
+    }
+
+    void bind() const { 
+        
+        GLuint & current = _bindings[ _target ];
+
+        if( _target != GL_ELEMENT_ARRAY_BUFFER )
+            if( current == _id )        return; 
+            else                 current = _id;
+
+
+        glBindBuffer( _target, _id ); 
+    }
 
     void register_attrib
     (
