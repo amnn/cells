@@ -29,17 +29,17 @@
 
 using namespace std;
 
-struct xyzuv
+struct xy
 {
 
-    static void layout( Buffer<xyzuv> &b )
+    static void layout( Buffer<xy> &b )
     {
 
-        b.register_attrib( ATTRIB_VERT,  3, GL_FLOAT, GL_FALSE, sizeof( float )*3, 0 );
+        b.register_attrib( ATTRIB_VERT, 2, GL_FLOAT, GL_FALSE, 0, 0 );
 
     }
 
-    float vert[ 3 ];
+    float vert[ 2 ];
 
 };
 
@@ -71,56 +71,33 @@ int main( int argc, char ** argv )
         engine.scr().set_title( "Cells" );
         engine.use_program(        prog );
 
-        auto cube = new xyzuv[8]
+        auto quad = new xy[4]
         {
-            { {  1.f,  1.f,  1.f } }, //0 0
-            { { -1.f,  1.f,  1.f } }, //2 1
-            { { -1.f,  1.f, -1.f } }, //7 2
-            { {  1.f,  1.f, -1.f } }, //6 3
-            { {  1.f, -1.f,  1.f } }, //1 4
-            { { -1.f, -1.f,  1.f } }, //3 5
-            { { -1.f, -1.f, -1.f } }, //4 6
-            { {  1.f, -1.f, -1.f } }, //5 7
+            { { 0.f  ,    0.f } },
+            { { width,    0.f } },
+            { { 0.f  , height } },
+            { { width, height } }
 
         };
 
-        auto elems = new GLuint[20] { 4, 5, 0, 1, 3, 2, 7, 6, 4, 5, 
-                                      65535, 4, 7, 0, 3, 
-                                      65535, 2, 1, 6, 5 };
+        auto elems = new GLuint[4] { 0, 1, 2, 3 };
 
-        auto v     = new Buffer<  xyzuv > (          GL_ARRAY_BUFFER, 8, 
-                                                   cube, GL_STATIC_DRAW );
+        auto v     = new Buffer<     xy > (         GL_ARRAY_BUFFER, 4, 
+                                                  quad, GL_STATIC_DRAW );
 
-        auto e     = new Buffer< GLuint > ( GL_ELEMENT_ARRAY_BUFFER, 20, 
-                                                  elems, GL_STATIC_DRAW );
+        auto e     = new Buffer< GLuint > ( GL_ELEMENT_ARRAY_BUFFER, 4, 
+                                                 elems, GL_STATIC_DRAW );
 
-        shared_ptr< Buffer<  xyzuv > > sp_v( v );
+        shared_ptr< Buffer<     xy > > sp_v( v );
         shared_ptr< Buffer< GLuint > > sp_e( e );
 
-        auto bp_c0 = shared_ptr<BufferPoly>( new BufferPoly( sp_v, sp_e, 20 ) );
+        auto bp_q0 = shared_ptr<BufferPoly>( new BufferPoly( sp_v, sp_e, 20 ) );
 
-        shared_ptr<Renderable> c0( new BufferPoly::Instance( bp_c0 ) );
+        shared_ptr<Renderable> q0( new BufferPoly::Instance( bp_q0 ) );
 
-        delete[] cube; delete[] elems;
+        delete[] quad; delete[] elems;
 
-        engine.add_child( c0 );
-
-        c0->transform() = glm::scale( glm::mat4(1.f), glm::vec3(20.f) );
-
-        c0->transform() = glm::translate(                  c0->transform(), 
-                                          glm::vec3( width  / ( 2 * 20.f ), 
-                                                     height / ( 2 * 20.f ), 
-                                                                       0.f 
-                                                   ) 
-                                        );
-
-        c0->callback()  = [](Renderable &r, const double &d) {
-
-            glm::mat4 &mat = r.transform();
-
-            mat = glm::rotate( mat, static_cast<float>(30*d), glm::vec3(1.f,1.f,0.f) );
-
-        };
+        engine.add_child( q0 );
 
         engine.look_at( 0.f, 0.f, 10.f,
                         0.f, 0.f,  0.f,
