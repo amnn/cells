@@ -51,14 +51,31 @@ public:
             _poly->bind(); glm::mat4 trn = m * _local;
 
             glUniformMatrix4fv( p["MVP"], 1, GL_FALSE, &trn[0][0] );
-            glDrawElements(
+            
+            if( _poly->_elFmt )
+            {
 
-                _poly->_fmt, 
-                _poly->_indices, 
-                _poly->_elFmt, 
-                reinterpret_cast<void *>( _poly->_elOff ) 
+                glDrawElements(
 
-            );
+                    _poly->_fmt, 
+                    _poly->_indices, 
+                    _poly->_elFmt, 
+                    reinterpret_cast<void *>( _poly->_elOff ) 
+
+                );
+
+            } else {
+
+                glDrawArrays(
+
+                    _poly->_fmt,
+                    _poly->_elOff,
+                    _poly->_indices
+
+                );
+
+            }
+
         };
 
     };
@@ -89,6 +106,27 @@ public:
 
     };
 
+    template <class S>
+    BufferPoly
+    (
+        std::shared_ptr< Buffer<S> > &v,
+        GLsizei                     num,
+        GLenum                      fmt = GL_TRIANGLE_STRIP,
+        GLuint                      off =                 0
+    ) 
+    : _fmt     { fmt }, 
+      _elOff   { off },
+      _elFmt   {   0 },
+      _indices { num }
+    {
+        if( v->target() != GL_ARRAY_BUFFER )
+            throw( "First Buffer must be an Array Buffer!" );
+
+        glGenVertexArrays( 1, &_vaoID );
+
+        add_array( v );
+    }
+
     template <class S, class T>
     BufferPoly
     (
@@ -101,15 +139,13 @@ public:
         GLuint                      off =                 0
 
     )
+    : BufferPoly( v, num, fmt, off )
     {
 
-        if( v->target() !=         GL_ARRAY_BUFFER ) throw(          "First Buffer must be Array Buffer!" );
-        if( e->target() != GL_ELEMENT_ARRAY_BUFFER ) throw( "Second Buffer must be Element Array Buffer!" );
+        if( e->target() != GL_ELEMENT_ARRAY_BUFFER ) 
+            throw( "Second Buffer must be Element Array Buffer!" );
 
-        glGenVertexArrays( 1, &_vaoID );
-
-        add_array(                         v );
-        add_indices( fmt, num, elFmt, off, e );
+        add_indices( elFmt, e );
 
     };
 
@@ -130,28 +166,22 @@ public:
     template <class S>
     void add_array( std::shared_ptr< Buffer<S> > &v )
     {
-        _tiedBuffs.emplace_back(   v );
-        bind(); S::layout(        *v );
+        _tiedBuffs.emplace_back(       v );
+        bind(); v->bind(); S::layout( *v );
     };
 
     template <class T>
     void add_indices
     ( 
     
-        GLenum                         fmt,
-        GLsizei                        num,
         GLenum                       elFmt,
-        GLuint                         off,
         std::shared_ptr< Buffer<T> >    &e 
     
     )
     {
         bind();
 
-        _fmt     =   fmt;
-        _indices =   num;
         _elFmt   = elFmt;
-        _elOff   =   off;
         _elBuff  =     e;
 
         e->bind();

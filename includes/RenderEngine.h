@@ -31,15 +31,7 @@ class RenderEngine : public RenderGroup
       _term                  { false },
       _screen     ( (int)_w, (int)_h ),
       _proj                    ( 1.f )
-    {
-
-        glewExperimental = true;
-        if( glewInit() != GLEW_OK ) { throw( "Failed to Initialize GLEW!" ); }
-
-        glEnable( GL_PRIMITIVE_RESTART );
-        glPrimitiveRestartIndex( 65535 );
-
-    }
+    {}
 
 public:
 
