@@ -62,16 +62,11 @@ int main( int argc, char ** argv )
             { width, height }
 
         };
-
-        GLuint elems[4] = { 0, 1, 2, 3 };
-
+        
         auto v = make_shared< Buffer >(          GL_ARRAY_BUFFER, 
                                         4, verts, GL_STATIC_DRAW );
 
-        auto e = make_shared< Buffer >(  GL_ELEMENT_ARRAY_BUFFER, 
-                                        4, elems, GL_STATIC_DRAW );
-
-        auto quadPoly = make_shared< BufferPoly >(     v, xy::layout, e, 4 );
+        auto quadPoly = make_shared< BufferPoly >(        v, xy::layout, 4 );
         shared_ptr<Renderable> quad0( new BufferPoly::Instance( quadPoly ) );
 
         engine.add_child( quad0 );
