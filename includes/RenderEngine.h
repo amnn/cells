@@ -72,14 +72,15 @@ public:
         for( std::thread &th : _aux ) th.join();
     }
 
-    std::vector< std::thread > & aux()  { return    _aux; }
-    Scr                        & scr()  { return _screen; }
-    bool                       & term() { return   _term; }
+    std::vector< std::thread > & aux()        { return    _aux; }
+    Scr                        & scr()        { return _screen; }
+    bool                       & term()       { return   _term; }
+    const ShaderProgram        & prog() const { return   _prog; }
 
-    void thrd_req()    {                _access.lock(  ); }
-    void thrd_rel()    {                _access.unlock(); }
+    void thrd_req()  {                        _access.lock(  ); }
+    void thrd_rel()  {                        _access.unlock(); }
 
-    void draw_loop()   {    _screen.display_link( this ); }
+    void draw_loop() {            _screen.display_link( this ); }
 
     void use_program( std::shared_ptr<ShaderProgram> &p )
     {

@@ -109,11 +109,14 @@ public:
     template <class LFun>
     BufferPoly
     (
+
+        const ShaderProgram       &p,
         std::shared_ptr< Buffer > &v,
         LFun                  layout,
         GLsizei                  num,
         GLenum                   fmt = GL_TRIANGLE_STRIP,
         GLuint                   off =                 0
+
     ) 
     : _fmt     { fmt }, 
       _elOff   { off },
@@ -125,13 +128,14 @@ public:
 
         glGenVertexArrays( 1, &_vaoID );
 
-        add_array( v, layout );
+        add_array(       p, v, layout );
     }
 
     template <class LFun>
     BufferPoly
     (
 
+        const ShaderProgram       &p,
         std::shared_ptr< Buffer > &v, 
         LFun                  layout,
         std::shared_ptr< Buffer > &e,
@@ -141,7 +145,7 @@ public:
         GLuint                   off =                 0
 
     )
-    : BufferPoly( v, layout, num, fmt, off )
+    : BufferPoly( p, v, layout, num, fmt, off )
     {
 
         if( e->target() != GL_ELEMENT_ARRAY_BUFFER ) 
@@ -166,10 +170,17 @@ public:
     };
 
     template <class LFun>
-    void add_array( std::shared_ptr< Buffer > &v, LFun layout )
+    void add_array
+    ( 
+
+        const ShaderProgram       &p, 
+        std::shared_ptr< Buffer > &v, 
+        LFun                  layout 
+
+    )
     {
         _tiedBuffs.emplace_back(    v );
-        bind(); v->bind(); layout( *v );
+        bind(); v->bind(); layout( p, *v );
     };
 
     void add_indices
