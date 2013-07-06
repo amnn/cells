@@ -5,24 +5,9 @@
 
 #include "GL_includes.h"
 
-enum BufferAttrib {
-    ATTRIB_VERT  = 0,
-    ATTRIB_COLOR = 1,
-    ATTRIB_NORM  = 2,
-    ATTRIB_TEXUV = 3
-};
-
-class _BufferBindings {
-protected:
+class Buffer {
 
     static std::unordered_map< GLenum, GLuint > _bindings;
-
-};
-
-std::unordered_map< GLenum, GLuint > _BufferBindings::_bindings {};
-
-template <class S>
-class Buffer : public _BufferBindings {
 
     GLuint _id, _target;
 
@@ -31,6 +16,7 @@ public:
     Buffer()                           {     glGenBuffers( 1, &_id ); }
     ~Buffer()                          {  glDeleteBuffers( 1, &_id ); }
 
+    template <class S>
     Buffer( 
     
         GLenum     target, 
@@ -72,12 +58,13 @@ public:
 
     void register_attrib
     (
-        BufferAttrib   attr,
-        GLuint         size,
-        GLenum         type,
-        GLboolean      norm,
-        GLsizei      stride,
-        GLuint          off
+
+        GLuint       attr,
+        GLuint       size,
+        GLenum       type,
+        GLboolean    norm,
+        GLsizei    stride,
+        GLuint        off
 
     ) const
     {
@@ -86,11 +73,12 @@ public:
 
         bind();
 
-        glEnableVertexAttribArray( (GLuint)attr );
-        glVertexAttribPointer( (GLuint)attr, size, type, norm, stride, reinterpret_cast<void *>( off ) );
+        glEnableVertexAttribArray( attr );
+        glVertexAttribPointer( attr, size, type, norm, stride, reinterpret_cast<void *>( off ) );
 
     }
 
+    template <class S>
     void data
     ( 
  
@@ -105,5 +93,7 @@ public:
     }
 
 };
+
+std::unordered_map< GLenum, GLuint > Buffer::_bindings {};
 
 #endif

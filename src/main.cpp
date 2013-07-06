@@ -23,9 +23,9 @@ struct xy {
 
     float vert[2];
 
-    static void layout( Buffer<xy> &b )
+    static void layout( Buffer &b )
     {
-        b.register_attrib( ATTRIB_VERT, 2, GL_FLOAT, GL_FALSE, 0, 0 );
+        b.register_attrib( 0, 2, GL_FLOAT, GL_FALSE, 0, 0 );
     }
 
 };
@@ -48,7 +48,8 @@ int main( int argc, char ** argv )
 
         prog->link();
 
-        prog->uniform( "MVP" );
+        prog->uniform(  "MVP" );
+        prog->attrib(  "vPos" );
 
         engine.scr().set_title( "Cells" );
         engine.use_program(        prog );
@@ -64,13 +65,13 @@ int main( int argc, char ** argv )
 
         GLuint elems[4] = { 0, 1, 2, 3 };
 
-        auto v = make_shared<     Buffer<xy> >(          GL_ARRAY_BUFFER, 
-                                                4, verts, GL_STATIC_DRAW );
+        auto v = make_shared< Buffer >(          GL_ARRAY_BUFFER, 
+                                        4, verts, GL_STATIC_DRAW );
 
-        auto e = make_shared< Buffer<GLuint> >(  GL_ELEMENT_ARRAY_BUFFER, 
-                                                4, elems, GL_STATIC_DRAW );
+        auto e = make_shared< Buffer >(  GL_ELEMENT_ARRAY_BUFFER, 
+                                        4, elems, GL_STATIC_DRAW );
 
-        auto quadPoly = make_shared< BufferPoly >(                 v, e, 4 );
+        auto quadPoly = make_shared< BufferPoly >(     v, xy::layout, e, 4 );
         shared_ptr<Renderable> quad0( new BufferPoly::Instance( quadPoly ) );
 
         engine.add_child( quad0 );

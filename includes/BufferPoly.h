@@ -106,13 +106,14 @@ public:
 
     };
 
-    template <class S>
+    template <class LFun>
     BufferPoly
     (
-        std::shared_ptr< Buffer<S> > &v,
-        GLsizei                     num,
-        GLenum                      fmt = GL_TRIANGLE_STRIP,
-        GLuint                      off =                 0
+        std::shared_ptr< Buffer > &v,
+        LFun                  layout,
+        GLsizei                  num,
+        GLenum                   fmt = GL_TRIANGLE_STRIP,
+        GLuint                   off =                 0
     ) 
     : _fmt     { fmt }, 
       _elOff   { off },
@@ -124,22 +125,23 @@ public:
 
         glGenVertexArrays( 1, &_vaoID );
 
-        add_array( v );
+        add_array( v, layout );
     }
 
-    template <class S, class T>
+    template <class LFun>
     BufferPoly
     (
 
-        std::shared_ptr< Buffer<S> > &v, 
-        std::shared_ptr< Buffer<T> > &e,
-        GLsizei                     num,
-        GLenum                      fmt = GL_TRIANGLE_STRIP, 
-        GLenum                    elFmt =   GL_UNSIGNED_INT,    
-        GLuint                      off =                 0
+        std::shared_ptr< Buffer > &v, 
+        LFun                  layout,
+        std::shared_ptr< Buffer > &e,
+        GLsizei                  num,
+        GLenum                   fmt = GL_TRIANGLE_STRIP, 
+        GLenum                 elFmt =   GL_UNSIGNED_INT,    
+        GLuint                   off =                 0
 
     )
-    : BufferPoly( v, num, fmt, off )
+    : BufferPoly( v, layout, num, fmt, off )
     {
 
         if( e->target() != GL_ELEMENT_ARRAY_BUFFER ) 
@@ -163,19 +165,18 @@ public:
     
     };
 
-    template <class S>
-    void add_array( std::shared_ptr< Buffer<S> > &v )
+    template <class LFun>
+    void add_array( std::shared_ptr< Buffer > &v, LFun layout )
     {
-        _tiedBuffs.emplace_back(       v );
-        bind(); v->bind(); S::layout( *v );
+        _tiedBuffs.emplace_back(    v );
+        bind(); v->bind(); layout( *v );
     };
 
-    template <class T>
     void add_indices
     ( 
     
-        GLenum                       elFmt,
-        std::shared_ptr< Buffer<T> >    &e 
+        GLenum                    elFmt,
+        std::shared_ptr< Buffer >    &e 
     
     )
     {
