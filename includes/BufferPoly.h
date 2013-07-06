@@ -10,6 +10,7 @@
 #include "Buffer.h"
 #include "Texture.h"
 #include "Renderable.h"
+#include "RenderEngine.h"
 #include "ShaderProgram.h"
 
 class BufferPoly 
@@ -106,12 +107,12 @@ public:
 
     };
 
-    template <class LFun>
+    template <class LFun, class Scr>
     BufferPoly
     (
 
-        const ShaderProgram       &p,
-        std::shared_ptr< Buffer > &v,
+        const RenderEngine<Scr> &eng,
+        std::shared_ptr<Buffer>   &v,
         LFun                  layout,
         GLsizei                  num,
         GLenum                   fmt = GL_TRIANGLE_STRIP,
@@ -128,24 +129,24 @@ public:
 
         glGenVertexArrays( 1, &_vaoID );
 
-        add_array(       p, v, layout );
+        add_array(     eng, v, layout );
     }
 
-    template <class LFun>
+    template <class LFun, class Scr>
     BufferPoly
     (
 
-        const ShaderProgram       &p,
-        std::shared_ptr< Buffer > &v, 
+        const RenderEngine<Scr> &eng,
+        std::shared_ptr<Buffer>   &v, 
         LFun                  layout,
-        std::shared_ptr< Buffer > &e,
+        std::shared_ptr<Buffer>   &e,
         GLsizei                  num,
         GLenum                   fmt = GL_TRIANGLE_STRIP, 
         GLenum                 elFmt =   GL_UNSIGNED_INT,    
         GLuint                   off =                 0
 
     )
-    : BufferPoly( p, v, layout, num, fmt, off )
+    : BufferPoly( eng, v, layout, num, fmt, off )
     {
 
         if( e->target() != GL_ELEMENT_ARRAY_BUFFER ) 
@@ -169,18 +170,21 @@ public:
     
     };
 
-    template <class LFun>
+    template <class LFun, class Scr>
     void add_array
     ( 
 
-        const ShaderProgram       &p, 
+        const RenderEngine<Scr> &eng,
         std::shared_ptr< Buffer > &v, 
         LFun                  layout 
 
     )
     {
-        _tiedBuffs.emplace_back(    v );
-        bind(); v->bind(); layout( p, *v );
+        _tiedBuffs.emplace_back( v );
+        
+        bind(); v->bind(); 
+        
+        layout(     eng.prog(), *v );
     };
 
     void add_indices

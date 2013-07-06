@@ -75,7 +75,7 @@ public:
     std::vector< std::thread > & aux()        { return    _aux; }
     Scr                        & scr()        { return _screen; }
     bool                       & term()       { return   _term; }
-    const ShaderProgram        & prog() const { return   _prog; }
+    const ShaderProgram        & prog() const { return  *_prog; }
 
     void thrd_req()  {                        _access.lock(  ); }
     void thrd_rel()  {                        _access.unlock(); }

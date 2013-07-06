@@ -65,8 +65,8 @@ int main( int argc, char ** argv )
         auto v = make_shared< Buffer >(          GL_ARRAY_BUFFER, 
                                         4, verts, GL_STATIC_DRAW );
 
-        auto quadPoly = make_shared< BufferPoly >( *prog, v, xy::layout, 4 );
-        shared_ptr<Renderable> quad0( new BufferPoly::Instance( quadPoly ) );
+        auto quadPoly = make_shared< BufferPoly >( engine, v, xy::layout, 4 );
+        shared_ptr<Renderable> quad0(  new BufferPoly::Instance( quadPoly ) );
 
         engine.add_child( quad0 );
 
