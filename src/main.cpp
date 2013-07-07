@@ -43,8 +43,8 @@ int main( int argc, char ** argv )
         RenderEngine<PixelatedScr> engine ( width, height, 0.1f, 100.f );
         shared_ptr<ShaderProgram>  prog (            new ShaderProgram );
         
-        prog->attach_shader( { GL_VERTEX_SHADER,   "assets/vert.glsl" } );
-        prog->attach_shader( { GL_FRAGMENT_SHADER, "assets/frag.glsl" } );
+        prog->attach_shader( { GL_VERTEX_SHADER,   "assets/sierp_vert.glsl" } );
+        prog->attach_shader( { GL_FRAGMENT_SHADER, "assets/sierp_frag.glsl" } );
 
         prog->link();
 
