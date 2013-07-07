@@ -16,6 +16,7 @@
 
 using namespace std;
 
+// TODO: Test Texture class init with data.
 // TODO: Noise class (child of Texture).
 
 struct xy {
