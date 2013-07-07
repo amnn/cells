@@ -1,10 +1,11 @@
 #version 330 core
 
-in  vec2 texUV;
-out vec3 color;
+uniform usampler2DRect tex;
+
+out vec4 color;
 
 void main() {
 
-	color = (int(texUV.x) & int(texUV.y)) == 0 ? vec3(0) : vec3(1);
+	color = vec4( texture( tex, gl_FragCoord.xy ).rrr, 1 ); 
 
 }

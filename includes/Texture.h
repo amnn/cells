@@ -29,6 +29,7 @@ public:
 
     void   bind()                   const;
     GLenum target()                 const;
+    GLuint id()                     const;
 
 protected:
 

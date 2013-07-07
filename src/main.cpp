@@ -73,15 +73,19 @@ int main( int argc, char ** argv )
         for( int x = 0; x < iW; ++x )
             bitPattern[ y * iW + x ] = x & y ? 1 : 0; 
 
+        Texture2D *pSierp = new Texture2D( GL_TEXTURE_RECTANGLE, 1, 
+                                                   GL_R8UI, iW, iH );
 
-        shared_ptr<Texture> sierp( new Texture2D( GL_TEXTURE_RECTANGLE, 1, 
-                                                  GL_R8UI, iW, iH, GL_RED, 
-                                             GL_UNSIGNED_BYTE, bitPattern ) );
+        pSierp->param( GL_TEXTURE_MIN_FILTER,                     GL_NEAREST );
+        pSierp->param( GL_TEXTURE_MAG_FILTER,                     GL_NEAREST );
+        pSierp->param( GL_TEXTURE_WRAP_S,                   GL_CLAMP_TO_EDGE );
+        pSierp->param( GL_TEXTURE_WRAP_T,                   GL_CLAMP_TO_EDGE );
+
+        pSierp->image(       0, GL_RED_INTEGER, GL_UNSIGNED_BYTE, bitPattern );
+
+        shared_ptr<Texture> sierp( pSierp );
 
         delete[] bitPattern;
-
-        sierp->param( GL_TEXTURE_MIN_FILTER,                       GL_NEAREST );
-        sierp->param( GL_TEXTURE_MAG_FILTER,                       GL_NEAREST );
 
         auto v        = make_shared< Buffer >(                GL_ARRAY_BUFFER, 
                                                      4, verts, GL_STATIC_DRAW );

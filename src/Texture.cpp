@@ -53,3 +53,4 @@ void Texture::bind() const {
 }
 
 GLenum Texture::target() const { return _target; };
+GLuint Texture::id()     const { return     _id; };
