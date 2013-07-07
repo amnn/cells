@@ -13,6 +13,7 @@
 #include "PixelatedScr.h"
 #include "Buffer.h"
 #include "BufferPoly.h"
+#include "Texture.h"
 
 using namespace std;
 
@@ -37,6 +38,9 @@ int main( int argc, char ** argv )
 
     float width  = strtof( argv[1], nullptr ),
           height = strtof( argv[2], nullptr );
+
+    int   iW     = int(  width ),
+          iH     = int( height );
 
     try {    
 
@@ -63,11 +67,28 @@ int main( int argc, char ** argv )
 
         };
         
-        auto v = make_shared< Buffer >(          GL_ARRAY_BUFFER, 
-                                        4, verts, GL_STATIC_DRAW );
+        GLubyte *bitPattern = new GLubyte[ iW * iH ];
 
-        auto quadPoly = make_shared< BufferPoly >( engine, v, xy::layout, 4 );
-        shared_ptr<Renderable> quad0(  new BufferPoly::Instance( quadPoly ) );
+        for( int y = 0; y < iH; ++y )
+        for( int x = 0; x < iW; ++x )
+            bitPattern[ y * iW + x ] = x & y ? 1 : 0; 
+
+
+        shared_ptr<Texture> sierp( new Texture2D( GL_TEXTURE_RECTANGLE, 1, 
+                                                  GL_R8UI, iW, iH, GL_RED, 
+                                             GL_UNSIGNED_BYTE, bitPattern ) );
+
+        delete[] bitPattern;
+
+        sierp->param( GL_TEXTURE_MIN_FILTER,                       GL_NEAREST );
+        sierp->param( GL_TEXTURE_MAG_FILTER,                       GL_NEAREST );
+
+        auto v        = make_shared< Buffer >(                GL_ARRAY_BUFFER, 
+                                                     4, verts, GL_STATIC_DRAW );
+
+        auto quadPoly = make_shared< BufferPoly >(   engine, v, xy::layout, 4 );
+        
+        shared_ptr<Renderable> quad0( new BufferPoly::TextureInstance( quadPoly, sierp ) );
 
         engine.add_child( quad0 );
 
