@@ -10,6 +10,7 @@
 #include "GL_includes.h"
 
 #include "buffer/Buffer.h"
+#include "noise/Noise.h"
 #include "renderable/BufferPoly.h"
 #include "renderable/RenderEngine.h"
 #include "screen/PixelatedScr.h"
@@ -18,8 +19,6 @@
 
 using namespace    std;
 using namespace engine;
-
-// TODO: Noise class (child of Texture).
 
 namespace {
     struct xy {
@@ -70,11 +69,9 @@ int main( int argc, char ** argv )
 
         };
         
-        GLubyte *bitPattern = new GLubyte[ iW * iH ];
+        auto bitPattern = new GLuint[ iW * iH ];
 
-        for( int y = 0; y < iH; ++y )
-        for( int x = 0; x < iW; ++x )
-            bitPattern[ y * iW + x ] = x & y ? 1 : 0; 
+        cout << "Using seed: " << Noise::perlin<1>( iW, iH, bitPattern ) << endl;
 
         Texture2D *pSierp = new Texture2D( GL_TEXTURE_RECTANGLE, 1, 
                                                    GL_R8UI, iW, iH );
@@ -84,7 +81,7 @@ int main( int argc, char ** argv )
         pSierp->param( GL_TEXTURE_WRAP_S,                   GL_CLAMP_TO_EDGE );
         pSierp->param( GL_TEXTURE_WRAP_T,                   GL_CLAMP_TO_EDGE );
 
-        pSierp->image(       0, GL_RED_INTEGER, GL_UNSIGNED_BYTE, bitPattern );
+        pSierp->image(        0, GL_RED_INTEGER, GL_UNSIGNED_INT, bitPattern );
 
         shared_ptr<Texture> sierp( pSierp );
 

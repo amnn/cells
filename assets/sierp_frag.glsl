@@ -6,6 +6,6 @@ out vec4 color;
 
 void main() {
 
-	color = vec4( texture( tex, gl_FragCoord.xy ).rrr, 1 ); 
+	color = vec4( texture( tex, gl_FragCoord.xy ).rrr * 0.1, 1 );
 
 }
