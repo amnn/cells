@@ -21,15 +21,17 @@ using namespace engine;
 
 // TODO: Noise class (child of Texture).
 
-struct xy {
+namespace {
+    struct xy {
 
-    float vert[2];
+        float vert[2];
 
-    static void layout( const ShaderProgram &p, Buffer &b )
-    {
-        b.register_attrib( p["vPos"], 2, GL_FLOAT, GL_FALSE, 0, 0 );
-    }
+        static void layout( const ShaderProgram &p, Buffer &b )
+        {
+            b.register_attrib( p["vPos"], 2, GL_FLOAT, GL_FALSE, 0, 0 );
+        }
 
+    };
 };
 
 int main( int argc, char ** argv )
