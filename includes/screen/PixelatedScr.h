@@ -5,6 +5,8 @@
 
 #include "screen/GLFWScr.h"
 
+namespace engine {  
+
 class PixelatedScr : public GLFWScr {
 
     GLuint  _loResFBO, _buffs[2];
@@ -20,5 +22,7 @@ public:
     void display_link( RenderEngine<PixelatedScr> * ) const;        
 
 };
+
+}; // namespace engine
 
 #endif

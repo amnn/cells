@@ -6,6 +6,8 @@
 
 #include "renderable/RenderGroup.h"
 
+namespace engine {
+
 RenderGroup::RenderGroup( std::initializer_list< std::shared_ptr<Renderable> > &&_children )
 : Renderable()
 {
@@ -45,3 +47,5 @@ void RenderGroup::render( const ShaderProgram &p, const glm::mat4 &m ) const
     for( auto c : children ) c->render( p, transform );
 
 }
+
+}; // namespace engine

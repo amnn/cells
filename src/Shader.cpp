@@ -6,6 +6,8 @@
 
 #include "shader/Shader.h"
 
+namespace engine {
+
 void Shader::read( const char *loc, std::string &buff ) throw ( const char * )
 {
     std::ifstream in( loc, std::ios::in );
@@ -83,3 +85,5 @@ void Shader::compile( const char * loc ) const throw( const char * )
 }
 
 void Shader::attach( GLuint prog ) const { glAttachShader( prog, _id ); }
+
+}; // namespace engine

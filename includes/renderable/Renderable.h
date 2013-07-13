@@ -5,6 +5,8 @@
 
 #include "shader/ShaderProgram.h"
 
+namespace engine {
+
 class Renderable 
 {
 
@@ -56,5 +58,7 @@ protected:
     tick_callback    _cb;
 
 };
+
+}; // namespace engine
 
 #endif

@@ -9,6 +9,8 @@
 
 #include "shader/ShaderProgram.h"
 
+namespace engine {
+
 ShaderProgram::ShaderProgram( ShaderProgram &&that )
 {
 
@@ -73,3 +75,5 @@ void ShaderProgram::link() throw ( const char * ) {
 void ShaderProgram::use()           const { glUseProgram(    _id ); }
 
 const GLuint ShaderProgram::id()    const {             return _id; }
+
+}; // namespace engine

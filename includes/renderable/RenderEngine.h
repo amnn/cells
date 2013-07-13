@@ -14,6 +14,8 @@
 #include "renderable/RenderGroup.h"
 #include "shader/ShaderProgram.h"
 
+namespace engine {
+
 template< class Scr >
 class RenderEngine : public RenderGroup
 {
@@ -113,5 +115,7 @@ public:
     }
 
 };
+
+}; // namespace engine
 
 #endif

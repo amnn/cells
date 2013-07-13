@@ -5,6 +5,8 @@
 
 #include "GL_includes.h"
 
+namespace engine {
+
 class Shader {
 
     GLuint     _id;
@@ -32,5 +34,7 @@ public:
     void attach(        GLuint ) const;
 
 };
+
+}; // namespace engine
 
 #endif

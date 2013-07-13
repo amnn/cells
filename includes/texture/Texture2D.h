@@ -5,6 +5,8 @@
 
 #include "texture/Texture.h"
 
+namespace engine {
+
 class Texture2D : public Texture {
 
 	GLsizei _w, _h;
@@ -69,5 +71,7 @@ public:
 	{ glTexSubImage2D( _target, level, x, y, w, h, dFmt, type, data ); }
 
 };
+
+}; // namespace engine
 
 #endif

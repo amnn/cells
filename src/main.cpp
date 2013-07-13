@@ -16,7 +16,8 @@
 #include "shader/ShaderProgram.h"
 #include "texture/Texture.h"
 
-using namespace std;
+using namespace    std;
+using namespace engine;
 
 // TODO: Noise class (child of Texture).
 

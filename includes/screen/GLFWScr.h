@@ -5,8 +5,9 @@
 
 #include "renderable/RenderEngine.h"
 
-class GLFWScr {
+namespace engine {
 
+class GLFWScr {
 
 public:
 
@@ -29,5 +30,7 @@ protected:
 	GLFWwindow *_win;
 	
 };
+
+}; // namespace engine
 
 #endif

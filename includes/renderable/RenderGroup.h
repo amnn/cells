@@ -10,6 +10,8 @@
 #include "renderable/Renderable.h"
 #include "shader/ShaderProgram.h"
 
+namespace engine {
+
 class RenderGroup : public Renderable 
 {
 
@@ -35,5 +37,7 @@ public:
     virtual void render( const ShaderProgram &, const glm::mat4 & ) const;
 
 };
+
+}; // namespace engine
 
 #endif
