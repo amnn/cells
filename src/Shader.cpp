@@ -4,7 +4,7 @@
 
 #include "GL_includes.h"
 
-#include "Shader.h"
+#include "shader/Shader.h"
 
 void Shader::read( const char *loc, std::string &buff ) throw ( const char * )
 {

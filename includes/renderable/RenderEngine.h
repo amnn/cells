@@ -11,8 +11,8 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
-#include "RenderGroup.h"
-#include "ShaderProgram.h"
+#include "renderable/RenderGroup.h"
+#include "shader/ShaderProgram.h"
 
 template< class Scr >
 class RenderEngine : public RenderGroup

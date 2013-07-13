@@ -4,7 +4,7 @@
 
 #include "glm/glm.hpp"
 
-#include "RenderGroup.h"
+#include "renderable/RenderGroup.h"
 
 RenderGroup::RenderGroup( std::initializer_list< std::shared_ptr<Renderable> > &&_children )
 : Renderable()

@@ -1,45 +1,43 @@
-#ifndef TEXTURE3D_H
-#define TEXTURE3D_H
+#ifndef TEXTURE2D_H
+#define TEXTURE2D_H
 
 #include "GL_includes.h"
 
-#include "Texture.h"
+#include "texture/Texture.h"
 
-class Texture3D : public Texture {
+class Texture2D : public Texture {
 
-	GLsizei _w, _h, _d;
+	GLsizei _w, _h;
 
 public:
-
-	Texture3D
+	
+	Texture2D
 	(
 
 	    GLenum target,
 	    GLint  levels,
 	    GLint     fmt,
 	    GLsizei     w,
-	    GLsizei     h,
-	    GLsizei     d
+	    GLsizei     h
 
 	) 
-	: Texture( target, fmt ), _w { w }, _h { h }, _d { d }
-	{ glTexStorage3D( target, levels, fmt, w, h, d ); }
+	: Texture( target, fmt ), _w { w }, _h { h }
+	{ glTexStorage2D( target, levels, fmt, w, h ); }
 
 	template <class S>
-	Texture3D
+	Texture2D
 	(
 	    GLenum target,
 	    GLint  levels,
 	    GLint     fmt,
 	    GLsizei     w,
 	    GLsizei     h,
-	    GLsizei     d,
 	    GLenum   dFmt,
 	    GLenum   type,
 	    S       *data
 
 	)
-	: Texture3D( target, levels, fmt, w, h, d )
+	: Texture2D( target, levels, fmt, w, h )
 	{ image( 0, dFmt, type, data ); }
 
 	template <class S>
@@ -52,7 +50,7 @@ public:
 	    S     *data
 
 	)
-	{ glTexImage3D( _target, level, _fmt, _w, _h, _d, 0, dFmt, type, data ); }
+	{ glTexImage2D( _target, level, _fmt, _w, _h, 0, dFmt, type, data ); }
 
 	template <class S>
 	void sub_image
@@ -61,16 +59,14 @@ public:
 	    GLint level,
 	    GLint     x,
 	    GLint     y,
-	    GLint     z,
 	    GLsizei   w,
 	    GLsizei   h,
-	    GLsizei   d,
 	    GLenum dFmt,
 	    GLenum type,
 	    S     *data
 
 	)
-	{ glTexSubImage3D( _target, level, x, y, z, w, h, d, dFmt, type, data ); }
+	{ glTexSubImage2D( _target, level, x, y, w, h, dFmt, type, data ); }
 
 };
 

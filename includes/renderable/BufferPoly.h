@@ -7,11 +7,11 @@
 #include "GL_includes.h"
 #include "glm/glm.hpp"
 
-#include "Buffer.h"
-#include "Texture.h"
-#include "Renderable.h"
-#include "RenderEngine.h"
-#include "ShaderProgram.h"
+#include "buffer/Buffer.h"
+#include "renderable/Renderable.h"
+#include "renderable/RenderEngine.h"
+#include "shader/ShaderProgram.h"
+#include "texture/Texture.h"
 
 class BufferPoly 
 {

@@ -3,7 +3,7 @@
 
 #include "GL_includes.h"
 
-#include "Texture.h"
+#include "texture/Texture.h"
 
 std::unordered_map< GLenum, GLuint > Texture::_bindings {};
 

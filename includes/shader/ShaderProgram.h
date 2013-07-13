@@ -5,7 +5,7 @@
 
 #include "GL_includes.h"
 
-#include "Shader.h"
+#include "shader/Shader.h"
 
 class ShaderProgram
 {

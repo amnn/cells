@@ -2,9 +2,9 @@
 
 #include "GL_includes.h"
 
-#include "GLFWScr.h"
+#include "screen/GLFWScr.h"
 
-#include "PixelatedScr.h"
+#include "screen/PixelatedScr.h"
 
 #define SF 4
 

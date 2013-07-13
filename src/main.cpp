@@ -6,18 +6,18 @@
 
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
+
 #include "GL_includes.h"
 
-#include "RenderEngine.h"
-#include "ShaderProgram.h"
-#include "PixelatedScr.h"
-#include "Buffer.h"
-#include "BufferPoly.h"
-#include "Texture.h"
+#include "buffer/Buffer.h"
+#include "renderable/BufferPoly.h"
+#include "renderable/RenderEngine.h"
+#include "screen/PixelatedScr.h"
+#include "shader/ShaderProgram.h"
+#include "texture/Texture.h"
 
 using namespace std;
 
-// TODO: Test Texture class init with data.
 // TODO: Noise class (child of Texture).
 
 struct xy {

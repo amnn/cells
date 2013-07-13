@@ -4,7 +4,7 @@
 
 #include "GL_includes.h"
 
-#include "GLFWScr.h"
+#include "screen/GLFWScr.h"
 
 
 GLFWScr::GLFWScr( int width, int height ) throw( char const * )

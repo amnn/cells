@@ -7,8 +7,8 @@
 
 #include "glm/glm.hpp"
 
-#include "Renderable.h"
-#include "ShaderProgram.h"
+#include "renderable/Renderable.h"
+#include "shader/ShaderProgram.h"
 
 class RenderGroup : public Renderable 
 {

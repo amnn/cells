@@ -5,9 +5,9 @@
 
 #include "GL_includes.h"
 
-#include "Shader.h"
+#include "shader/Shader.h"
 
-#include "ShaderProgram.h"
+#include "shader/ShaderProgram.h"
 
 ShaderProgram::ShaderProgram( ShaderProgram &&that )
 {

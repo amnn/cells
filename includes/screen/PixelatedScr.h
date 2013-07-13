@@ -3,7 +3,7 @@
 
 #include "GL_includes.h"
 
-#include "GLFWScr.h"
+#include "screen/GLFWScr.h"
 
 class PixelatedScr : public GLFWScr {
 
