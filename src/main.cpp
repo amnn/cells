@@ -71,7 +71,7 @@ int main( int argc, char ** argv )
         
         auto bitPattern = new GLuint[ iW * iH ];
 
-        cout << "Using seed: " << Noise::perlin<1>( iW, iH, bitPattern ) << endl;
+        cout << "Using seed: " << Noise::perlin<1,6>( iW, iH, bitPattern ) << endl;
 
         Texture2D *pSierp = new Texture2D( GL_TEXTURE_RECTANGLE, 1, 
                                                    GL_R8UI, iW, iH );

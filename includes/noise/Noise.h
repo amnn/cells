@@ -87,7 +87,7 @@ class Noise {
 
 public:
 
-    template < int P = 3 >
+    template < int P = 3, int UB = 0 >
     static unsigned int
     perlin( GLsizei w, GLsizei h, GLuint *buff, unsigned int seed = 0 )
     {
@@ -107,7 +107,8 @@ public:
             ); 
 
 
-        int     N  =    1 << P;
+        int     N  =      1 <<  P;
+        int     M  = UB ? 1 << UB : 0;
 
         GLsizei gW = w / N + 1,
                 gH = h / N + 1;
@@ -122,7 +123,7 @@ public:
             grads[ y * gW + x ] = gradients[ distribution( generator ) ];
 
         int sf10 = 10, sf = 1, sum = 0;
-        while( N < w && N < h )
+        while( N != M && N < w && N < h )
         {
             octave( w, h, grads, buff, N, sf10 );
 
