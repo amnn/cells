@@ -9,9 +9,9 @@ namespace engine {
 
 std::unordered_map< GLenum, GLuint > Texture::_bindings {};
 
-Texture::Texture( GLenum target, GLint fmt ) 
+Texture::Texture( GLenum target, GLint fmt )
 : _target { target }, _fmt { fmt }
-{ glGenTextures( 1, &_id ); }
+{ glGenTextures( 1, &_id ); bind(); }
 
 Texture::Texture( GLenum target ) : Texture( target, 0 ) {}
 
@@ -20,32 +20,32 @@ Texture::~Texture() { glDeleteTextures( 1, &_id ); }
 Texture::Texture( Texture &&that )
 {
     std::swap( _id,         that._id );
-    std::swap( _target, that._target );  
+    std::swap( _target, that._target );
 }
 
 Texture &Texture::operator=( Texture &&that )
 {
     std::swap( _id,         that._id );
-    std::swap( _target, that._target );  
+    std::swap( _target, that._target );
 
-    return *this;    
+    return *this;
 }
 
-void Texture::param( GLenum pname, GLint   p ) const 
+void Texture::param( GLenum pname, GLint   p ) const
 { bind(); glTexParameteri( _target, pname, p ); }
 
-void Texture::param( GLenum pname, GLfloat p ) const 
+void Texture::param( GLenum pname, GLfloat p ) const
 { bind(); glTexParameterf( _target, pname, p ); }
 
-void Texture::mip_maps() const 
+void Texture::mip_maps() const
 { bind(); glGenerateMipmap(          _target ); }
 
-void Texture::bind() const { 
-    
+void Texture::bind() const {
+
     GLuint & current = _bindings[ _target ];
 
     if( current != _id ) {
-        
+
         glBindTexture( _target, _id );
         current =               _id  ;
 
