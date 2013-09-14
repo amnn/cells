@@ -24,14 +24,16 @@ namespace {
     struct xy {
         float vert[2];
 
-        static void layout(const ShaderProgram &p, Buffer &b)
+        static void
+        layout(const ShaderProgram & p, Buffer & b)
         {
             b.register_attrib(p["vPos"], 2, GL_FLOAT, GL_FALSE, 0, 0);
         }
     };
 };
 
-int main(int argc, char ** argv)
+int
+main(int argc, char ** argv)
 {
     if(argc < 2) return 0;
 
@@ -45,8 +47,8 @@ int main(int argc, char ** argv)
         RenderEngine<PixelatedScr> engine (width, height, 0.1f, 100.f);
         shared_ptr<ShaderProgram>  prog (           new ShaderProgram);
 
-        prog->attach_shader( {GL_VERTEX_SHADER,            "assets/vert.glsl"} );
-        prog->attach_shader( {GL_FRAGMENT_SHADER, "assets/draw_sim_frag.glsl"} );
+        prog->attach_shader({ GL_VERTEX_SHADER,            "assets/vert.glsl" });
+        prog->attach_shader({ GL_FRAGMENT_SHADER, "assets/draw_sim_frag.glsl" });
 
         prog->link();
 

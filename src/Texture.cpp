@@ -7,51 +7,51 @@
 
 namespace engine {
 
-std::unordered_map< GLenum, GLuint > Texture::_bindings {};
+std::unordered_map<GLenum, GLuint> Texture::_bindings {};
 
-Texture::Texture( GLenum target, GLint fmt )
+Texture::Texture(GLenum target, GLint fmt)
 : _target { target }, _fmt { fmt }
-{ glGenTextures( 1, &_id ); bind(); }
+{ glGenTextures(1, &_id); bind(); }
 
-Texture::Texture( GLenum target ) : Texture( target, 0 ) {}
+Texture::Texture(GLenum target) : Texture(target, 0) {}
 
-Texture::~Texture() { glDeleteTextures( 1, &_id ); }
+Texture::~Texture() { glDeleteTextures(1, &_id); }
 
-Texture::Texture( Texture &&that )
+Texture::Texture(Texture && that)
 {
-    std::swap( _id,         that._id );
-    std::swap( _target, that._target );
+    std::swap(_id,         that._id);
+    std::swap(_target, that._target);
 }
 
-Texture &Texture::operator=( Texture &&that )
+Texture &
+Texture::operator=(Texture && that)
 {
-    std::swap( _id,         that._id );
-    std::swap( _target, that._target );
+    std::swap(_id,         that._id);
+    std::swap(_target, that._target);
 
     return *this;
 }
 
-void Texture::param( GLenum pname, GLint   p ) const
-{ bind(); glTexParameteri( _target, pname, p ); }
+void
+Texture::param(  GLenum pname, GLint p) const
+{ bind(); glTexParameteri(_target, pname, p); }
 
-void Texture::param( GLenum pname, GLfloat p ) const
-{ bind(); glTexParameterf( _target, pname, p ); }
+void
+Texture::param(GLenum pname, GLfloat p) const
+{ bind(); glTexParameterf(_target, pname, p); }
 
-void Texture::mip_maps() const
-{ bind(); glGenerateMipmap(          _target ); }
+void
+Texture::mip_maps() const
+{ bind(); glGenerateMipmap(         _target); }
 
-void Texture::bind() const {
+void
+Texture::bind() const {
+    GLuint & current = _bindings[_target];
 
-    GLuint & current = _bindings[ _target ];
-
-    if( current != _id ) {
-
-        glBindTexture( _target, _id );
-        current =               _id  ;
-
+    if(current != _id ) {
+        glBindTexture(_target, _id);
+        current =               _id;
     }
-
-
 }
 
 GLenum Texture::target() const { return _target; };

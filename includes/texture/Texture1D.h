@@ -15,57 +15,51 @@ public:
 
     Texture1D
     (
-
-        GLenum target,
-        GLint  levels,
-        GLint     fmt,
-        GLsizei     w
-
-    ) 
-    : Texture( target, fmt ), _w { w } 
-    { bind(); glTexStorage1D( target, levels, fmt, w ); }
+        GLenum   target,
+        GLint    levels,
+        GLint    fmt,
+        GLsizei  w
+    )
+    : Texture(target, fmt), _w { w }
+    { bind(); glTexStorage1D(target, levels, fmt, w); }
 
     template <class S>
     Texture1D
     (
-        GLenum target,
-        GLint  levels,
-        GLint     fmt,
-        GLsizei     w,
+        GLenum   target,
+        GLint    levels,
+        GLint    fmt,
+        GLsizei  w,
         GLenum   dFmt,
         GLenum   type,
-        S       *data
-
+        S *      data
     )
-    : Texture1D( target, levels, fmt, w )
-    { image( 0, dFmt, type, data ); }
+    : Texture1D(target, levels, fmt, w)
+    { image(0, dFmt, type, data); }
 
     template <class S>
-    void image
+    void
+    image
     (
-
-        GLint level,
-        GLenum dFmt, 
-        GLenum type,
-        S     *data
-
+        GLint   level,
+        GLenum  dFmt,
+        GLenum  type,
+        S *     data
     )
-    { glTexImage1D( _target, level, _fmt, _w, 0, dFmt, type, data ); }
+    { glTexImage1D(_target, level, _fmt, _w, 0, dFmt, type, data); }
 
     template <class S>
-    void sub_image
+    void
+    sub_image
     (
-
-        GLint level,
-        GLint     x,
-        GLsizei   w,
-        GLenum dFmt,
-        GLenum type,
-        S     *data
-
+        GLint    level,
+        GLint    x,
+        GLsizei  w,
+        GLenum   dFmt,
+        GLenum   type,
+        S *      data
     )
-    { glTexSubImage1D( _target, level, x, w, dFmt, type, data ); }
-
+    { glTexSubImage1D(_target, level, x, w, dFmt, type, data); }
 };
 
 }; // namespace engine

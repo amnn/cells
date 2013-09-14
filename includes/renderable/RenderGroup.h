@@ -12,7 +12,7 @@
 
 namespace engine {
 
-class RenderGroup : public Renderable 
+class RenderGroup : public Renderable
 {
 
 protected:
@@ -23,18 +23,18 @@ public:
 
     RenderGroup() : Renderable() {};
 
-    RenderGroup( std::initializer_list< std::shared_ptr<Renderable> > && );
+    RenderGroup(std::initializer_list< std::shared_ptr<Renderable> > &&);
 
-    RenderGroup            ( const RenderGroup & ) = delete;
-    RenderGroup &operator= ( const RenderGroup & ) = delete;
+    RenderGroup             (const RenderGroup &) = delete;
+    RenderGroup & operator= (const RenderGroup &) = delete;
 
-    RenderGroup            ( RenderGroup && );
-    RenderGroup &operator= ( RenderGroup && );
+    RenderGroup             (RenderGroup &&);
+    RenderGroup & operator= (RenderGroup &&);
 
-    void add_child( std::shared_ptr<Renderable> & );
+    void add_child(std::shared_ptr<Renderable> &);
 
-    void         tick  (                           const double & );
-    virtual void render( const ShaderProgram &, const glm::mat4 & ) const;
+    void         tick(                            const double &);
+    virtual void render(const ShaderProgram &, const glm::mat4 &) const;
 
 };
 

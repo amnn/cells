@@ -8,44 +8,42 @@
 
 namespace engine {
 
-RenderGroup::RenderGroup( std::initializer_list< std::shared_ptr<Renderable> > &&_children )
+RenderGroup::RenderGroup(std::initializer_list< std::shared_ptr<Renderable> > && _children)
 : Renderable()
 {
-
     children.reserve( _children.size() );
-
-    for( auto c : _children ) this->add_child( c );
-
+    for(auto c : _children) this->add_child(c);
 }
 
-RenderGroup::RenderGroup( RenderGroup &&that )
+RenderGroup::RenderGroup(RenderGroup && that)
 {
-    std::swap( children, that.children );
+    std::swap(children, that.children);
 }
 
-RenderGroup &RenderGroup::operator=( RenderGroup &&that )
+RenderGroup &
+RenderGroup::operator=(RenderGroup &&that)
 {
-    std::swap( children, that.children );
+    std::swap(children, that.children);
 }
 
-void RenderGroup::add_child( std::shared_ptr<Renderable> &pChild )
+void
+RenderGroup::add_child(std::shared_ptr<Renderable> & pChild)
 {
-    children.emplace_back( pChild );
+    children.emplace_back(pChild);
 }
 
-void RenderGroup::tick( const double &delta )
+void
+RenderGroup::tick(const double & delta)
 {
-
-    Renderable::tick( delta );
-    for( auto c : children ) c->tick( delta );
-
+    Renderable::tick(delta);
+    for(auto c : children) c->tick(delta);
 }
 
-void RenderGroup::render( const ShaderProgram &p, const glm::mat4 &m ) const
+void
+RenderGroup::render(const ShaderProgram & p, const glm::mat4 & m) const
 {
     glm::mat4 transform = m * _local;
-    for( auto c : children ) c->render( p, transform );
-
+    for(auto c : children) c->render(p, transform);
 }
 
 }; // namespace engine

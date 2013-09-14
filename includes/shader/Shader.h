@@ -14,25 +14,24 @@ class Shader {
 
 protected:
 
-    static void read( const char *, std::string & ) throw ( const char * );
+    static void read(const char *, std::string &) throw(const char *);
 
 public:
 
-    Shader( GLenum );
-    Shader( GLenum,         const char * );
-    Shader( GLenum, GLuint, const char * );
+    Shader(GLenum);
+    Shader(GLenum,         const char *);
+    Shader(GLenum, GLuint, const char *);
 
-    Shader( const Shader  & ) = delete;
-    Shader(       Shader && );
+    Shader(const Shader  &) = delete;
+    Shader(      Shader &&);
 
     ~Shader();
 
-    Shader &operator=( const Shader  & ) = delete;
-    Shader &operator=(       Shader && );
+    Shader &operator=(const Shader  &) = delete;
+    Shader &operator=(      Shader &&);
 
-    void compile( const char * ) const              throw ( const char * );
-    void attach(        GLuint ) const;
-
+    void compile(const char *) const throw(const char *);
+    void attach(       GLuint) const;
 };
 
 }; // namespace engine

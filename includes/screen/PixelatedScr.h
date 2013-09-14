@@ -5,7 +5,7 @@
 
 #include "screen/GLFWScr.h"
 
-namespace engine {  
+namespace engine {
 
 class PixelatedScr : public GLFWScr {
 
@@ -13,14 +13,13 @@ class PixelatedScr : public GLFWScr {
     GLsizei               _w, _h;
 
 public:
-    
-    static void window_moved( GLFWwindow *, int, int );
 
-    PixelatedScr( int, int ) throw ( const char * );
+    static void window_moved(GLFWwindow *, int, int);
+
+    PixelatedScr(int, int) throw(const char *);
     ~PixelatedScr();
-    
-    void display_link( RenderEngine<PixelatedScr> * ) const;        
 
+    void display_link(RenderEngine<PixelatedScr> *) const;
 };
 
 }; // namespace engine

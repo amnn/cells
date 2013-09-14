@@ -8,38 +8,37 @@ namespace engine {
 class Texture
 {
 
-    static std::unordered_map< GLenum, GLuint > _bindings;
+    static std::unordered_map<GLenum, GLuint> _bindings;
 
-    GLuint     _id;
+    GLuint _id;
 
-    Texture( GLenum );
+    Texture(GLenum);
 
 public:
 
     ~Texture();
 
-    Texture( Texture && );
-    Texture( Texture  & ) = delete;
+    Texture(Texture &&);
+    Texture(Texture  &) = delete;
 
-    Texture &operator=( Texture && );
-    Texture &operator=( Texture  & ) = delete;
+    Texture &operator=(Texture &&);
+    Texture &operator=(Texture  &) = delete;
 
-    void   param( GLenum,   GLint ) const;
-    void   param( GLenum, GLfloat ) const;
+    void   param(GLenum,   GLint) const;
+    void   param(GLenum, GLfloat) const;
 
-    void   mip_maps()               const;
+    void   mip_maps() const;
 
-    void   bind()                   const;
-    GLenum target()                 const;
-    GLuint id()                     const;
+    void   bind()     const;
+    GLenum target()   const;
+    GLuint id()       const;
 
 protected:
 
     GLenum _target;
     GLint     _fmt;
 
-    Texture( GLenum, GLint );
-
+    Texture(GLenum, GLint);
 };
 
 }; // namespace engine
