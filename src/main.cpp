@@ -63,30 +63,31 @@ int main(int argc, char ** argv)
             {width, height}
         };
 
-        auto bitPattern = new GLuint[iW * iH];
+        auto terrain = new GLuint[iW * iH];
 
-        cout << "Using seed: " << Noise::perlin<1,6>(iW, iH, bitPattern) << endl;
+        cout << "Using seed: " << Noise::perlin<1,6>(iW, iH, terrain) << endl;
 
-        Texture2D *pSierp = new Texture2D(GL_TEXTURE_RECTANGLE, 1,
-                                                   GL_R8UI, iW, iH);
+        Texture3D *pSimState = new Texture3D(GL_TEXTURE_2D_ARRAY, 1,
+                                                 GL_R8UI, iW, iH, 2);
 
-        pSierp->param(GL_TEXTURE_MIN_FILTER,              GL_NEAREST);
-        pSierp->param(GL_TEXTURE_MAG_FILTER,              GL_NEAREST);
-        pSierp->param(GL_TEXTURE_WRAP_S,            GL_CLAMP_TO_EDGE);
-        pSierp->param(GL_TEXTURE_WRAP_T,            GL_CLAMP_TO_EDGE);
+        shared_ptr<Texture> simState(pSimState);
 
-        pSierp->image(0, GL_RED_INTEGER, GL_UNSIGNED_INT, bitPattern);
+        pSimState->param(GL_TEXTURE_MIN_FILTER,          GL_NEAREST);
+        pSimState->param(GL_TEXTURE_MAG_FILTER,          GL_NEAREST);
+        pSimState->param(GL_TEXTURE_WRAP_S,        GL_CLAMP_TO_EDGE);
+        pSimState->param(GL_TEXTURE_WRAP_T,        GL_CLAMP_TO_EDGE);
 
-        shared_ptr<Texture> sierp(pSierp);
+        pSimState->sub_image( 0, 0, 0, 0, iW, iH, 1, GL_RED_INTEGER,
+                                           GL_UNSIGNED_INT, terrain);
 
-        delete[] bitPattern;
+        delete[] terrain;
 
         auto v        = make_shared<Buffer>(             GL_ARRAY_BUFFER,
                                                 4, verts, GL_STATIC_DRAW);
 
         auto quadPoly = make_shared<BufferPoly>(engine, v, xy::layout, 4);
 
-        shared_ptr<Renderable> quad0( new BufferPoly::TextureInstance(quadPoly, sierp) );
+        shared_ptr<Renderable> quad0( new BufferPoly::TextureInstance(quadPoly, simState) );
 
         engine.add_child(quad0);
 
