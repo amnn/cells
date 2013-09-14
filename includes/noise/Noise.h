@@ -41,27 +41,25 @@ class Noise {
         return    x * f + y * (1 - f );
     }
 
-    static void 
+    static void
     octave
-    ( 
+    (
 
-        GLsizei w, 
+        GLsizei w,
         GLsizei h,
         grad_t *grads,
-        GLuint *buff, 
+        GLuint *buff,
         int N,
         int sf
 
     )
     {
-
         GLsizei gW = w / N + 1;
-        GLsizei gH = h / N + 1;
 
         for( int y = 0; y < h; ++y )
         for( int x = 0; x < w; ++x )
         {
-            GLuint i   = x / N, 
+            GLuint i   = x / N,
                    j   = y / N;
 
             grad_t g00 = grads[ j       * gW +       i ],
@@ -69,7 +67,7 @@ class Noise {
                    g10 = grads[ j       * gW + (i + 1) ],
                    g11 = grads[ (j + 1) * gW + (i + 1) ];
 
-            double u   = ( x % N ) / static_cast<double>( N ), 
+            double u   = ( x % N ) / static_cast<double>( N ),
                    v   = ( y % N ) / static_cast<double>( N );
 
             double n00 = g00.x * u       + g00.y *       v,
@@ -91,27 +89,26 @@ public:
     static unsigned int
     perlin( GLsizei w, GLsizei h, GLuint *buff, unsigned int seed = 0 )
     {
-
         memset( buff, 0, w * h * sizeof( GLuint ) );
 
         using clock = std::chrono::high_resolution_clock;
         using ms    = std::chrono::milliseconds;
 
         if( !seed )
-            seed = static_cast<unsigned int>( 
+            seed = static_cast<unsigned int>(
 
-                std::chrono::duration_cast<ms>( 
-                    clock::now().time_since_epoch() 
-                ).count() 
+                std::chrono::duration_cast<ms>(
+                    clock::now().time_since_epoch()
+                ).count()
 
-            ); 
+            );
 
 
         int     N  =      1 <<  P;
         int     M  = UB ? 1 << UB : 0;
 
         GLsizei gW = w / N + 1,
-                gH = h / N + 1;
+                gH = h / N + 2;
 
         std::default_random_engine         generator(    seed );
         std::uniform_int_distribution<int> distribution( 0, 7 );
