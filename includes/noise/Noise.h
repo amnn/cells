@@ -2,6 +2,7 @@
 #define NOISE_H
 
 #include <iostream>
+#include <memory>
 #include <chrono>
 #include <random>
 #include <cstring>
@@ -40,12 +41,12 @@ class Noise {
     static void
     octave
     (
-        GLsizei   w,
-        GLsizei   h,
-        grad_t *  grads,
-        GLuint *  buff,
-        int       N,
-        int       sf
+        GLsizei                      w,
+        GLsizei                      h,
+        std::unique_ptr<grad_t[]> &  grads,
+        std::unique_ptr<GLuint[]> &  buff,
+        int                          N,
+        int                          sf
     )
     {
         GLsizei gW = w / N + 1;
@@ -76,38 +77,54 @@ class Noise {
         }
     }
 
-public:
-    template <int P = 3, int UB = 0>
     static unsigned int
-    perlin(GLsizei w, GLsizei h, GLuint * buff, unsigned int seed = 0)
-    {
-        memset(buff, 0, w * h * sizeof(GLuint) );
-
+    generate_seed() {
         using clock = std::chrono::high_resolution_clock;
         using ms    = std::chrono::milliseconds;
 
-        if(!seed)
-            seed = static_cast<unsigned int>(
-                std::chrono::duration_cast<ms>(
-                    clock::now().time_since_epoch()
-                ).count()
-            );
+        return static_cast<unsigned int>(
+            std::chrono::duration_cast<ms>(
+                clock::now().time_since_epoch()
+            ).count()
+        );
+    }
 
+    static std::unique_ptr<grad_t[]>
+    gradient_grid(GLsizei w, GLsizei h, unsigned int seed)
+    {
+        std::default_random_engine         generator(   seed);
+        std::uniform_int_distribution<int> distribution(0, 7);
 
-        int     N  =      1 <<  P;
-        int     M  = UB ? 1 << UB : 0;
+        auto grads = std::unique_ptr<grad_t[]>( new grad_t[w * h] );
+
+        for(int y = 0; y < h; ++y)
+        for(int x = 0; x < w; ++x)
+            grads[y*w + x] = gradients[ distribution(generator) ];
+
+        return grads;
+    }
+
+public:
+    template <int P = 3, int UB = 0>
+    static unsigned int
+    perlin(
+        GLsizei                      w,
+        GLsizei                      h,
+        std::unique_ptr<GLuint[]> &  buff,
+        unsigned int                 seed = 0
+    )
+    {
+        if(!seed) seed = generate_seed();
+
+        int N      =      1 <<  P;
+        int M      = UB ? 1 << UB : 0;
 
         GLsizei gW = w / N + 1,
                 gH = h / N + 2;
 
-        std::default_random_engine         generator(   seed);
-        std::uniform_int_distribution<int> distribution(0, 7);
+        auto grads = gradient_grid(gW, gH, seed);
 
-        auto grads = new grad_t[gW * gH];
-
-        for(int y = 0; y < gH; ++y)
-        for(int x = 0; x < gW; ++x)
-            grads[y * gW + x] = gradients[ distribution(generator) ];
+        memset(buff.get(), 0, w * h * sizeof(GLuint) );
 
         int sf10 = 10, sf = 1, sum = 0;
         while(N != M && N < w && N < h)
@@ -123,8 +140,6 @@ public:
         for(int y = 0; y < h; ++y)
         for(int x = 0; x < w; ++x)
             buff[y * w + x] = buff[y * w + x] / sum;
-
-        delete[] grads;
 
         return seed;
     }

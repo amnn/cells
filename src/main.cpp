@@ -65,7 +65,7 @@ main(int argc, char ** argv)
             {width, height}
         };
 
-        auto terrain = new GLuint[iW * iH];
+        auto terrain = std::unique_ptr<GLuint[]>( new GLuint[iW * iH] );
 
         cout << "Using seed: " << Noise::perlin<1,6>(iW, iH, terrain) << endl;
 
@@ -80,9 +80,7 @@ main(int argc, char ** argv)
         pSimState->param(GL_TEXTURE_WRAP_T,        GL_CLAMP_TO_EDGE);
 
         pSimState->sub_image( 0, 0, 0, 0, iW, iH, 1, GL_RED_INTEGER,
-                                           GL_UNSIGNED_INT, terrain);
-
-        delete[] terrain;
+                                    GL_UNSIGNED_INT, terrain.get() );
 
         auto v        = make_shared<Buffer>(             GL_ARRAY_BUFFER,
                                                 4, verts, GL_STATIC_DRAW);
