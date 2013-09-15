@@ -143,6 +143,38 @@ public:
 
         return seed;
     }
+
+    template <int P = 3, int UB = 0>
+    static unsigned int
+    diffuse(
+        GLsizei                      w,
+        GLsizei                      h,
+        unsigned int                 max_ratio,
+        std::unique_ptr<GLuint[]> &  buff,
+        unsigned int                 floor = 0,
+        unsigned int                 seed  = 0
+    )
+    {
+        seed = perlin<P,UB>(w, h, buff, seed);
+
+        unsigned int threshold = std::min(10u, floor + max_ratio);
+
+        std::default_random_engine         gen(seed);
+
+        std::uniform_int_distribution<int> peak_distrib( threshold, max_ratio ),
+                                           skip_distrib(         0, max_ratio );
+
+        for(int y = 0; y < h; ++y)
+        for(int x = 0; x < w; ++x)
+        {
+            unsigned int i    = y*w + x,
+                         peak = buff[i] + peak_distrib(gen);
+
+            buff[i] = !skip_distrib(gen) && peak >= threshold ? buff[i] : 0;
+        }
+
+        return seed;
+    }
 };
 
 }; // namespace engine
