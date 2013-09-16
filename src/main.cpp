@@ -30,6 +30,32 @@ namespace {
             b.register_attrib(p["vPos"], 2, GL_FLOAT, GL_FALSE, 0, 0);
         }
     };
+
+    template <class T>
+    unique_ptr<T[]>
+    interleave(
+        unique_ptr<T[]> &  xs,
+        unique_ptr<T[]> &  ys,
+        size_t             count,
+        size_t             stride = 1
+    )
+    {
+        size_t          len { count * (stride + 1) };
+        unique_ptr<T[]> zs            { new T[len] };
+
+        int i = 0, j = 0;
+        for(int k = 0; k < len; k += stride+1)
+        {
+            int l;
+            for(l = 0; l < stride; ++l) zs[k+l] = xs[i+l];
+
+            zs[k+l] = ys[j];
+            i += stride;
+            ++j;
+        }
+
+        return zs;
+    }
 };
 
 int
@@ -65,12 +91,17 @@ main(int argc, char ** argv)
             {width, height}
         };
 
-        auto terrain = std::unique_ptr<GLuint[]>( new GLuint[iW * iH] );
+        unique_ptr<GLuint[]> terrain { new GLuint[iW * iH] },
+                             energy  { new GLuint[iW * iH] };
 
-        cout << "Using seed: " << Noise::perlin<1,6>(iW, iH, terrain) << endl;
+        unsigned int seed = Noise::perlin<1,6>( iW, iH, terrain);
+        Noise::diffuse<3,0>(               iW, iH, 5, energy, 7);
+        auto texture_data = interleave(terrain, energy, iW * iH);
+
+        cout << "Using seed: " << seed << endl;
 
         Texture3D *pSimState = new Texture3D(GL_TEXTURE_2D_ARRAY, 1,
-                                                 GL_R8UI, iW, iH, 2);
+                                               GL_RG32UI, iW, iH, 2);
 
         shared_ptr<Texture> simState(pSimState);
 
@@ -79,8 +110,8 @@ main(int argc, char ** argv)
         pSimState->param(GL_TEXTURE_WRAP_S,        GL_CLAMP_TO_EDGE);
         pSimState->param(GL_TEXTURE_WRAP_T,        GL_CLAMP_TO_EDGE);
 
-        pSimState->sub_image( 0, 0, 0, 0, iW, iH, 1, GL_RED_INTEGER,
-                                    GL_UNSIGNED_INT, terrain.get() );
+        pSimState->sub_image( 0, 0, 0, 0, iW, iH, 1, GL_RG_INTEGER,
+                               GL_UNSIGNED_INT, texture_data.get() );
 
         auto v        = make_shared<Buffer>(             GL_ARRAY_BUFFER,
                                                 4, verts, GL_STATIC_DRAW);

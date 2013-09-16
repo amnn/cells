@@ -161,8 +161,8 @@ public:
 
         std::default_random_engine         gen(seed);
 
-        std::uniform_int_distribution<int> peak_distrib( threshold, max_ratio ),
-                                           skip_distrib(         0, max_ratio );
+        std::uniform_int_distribution<int> peak_distrib(threshold - 10, max_ratio),
+                                           skip_distrib(             0, max_ratio);
 
         for(int y = 0; y < h; ++y)
         for(int x = 0; x < w; ++x)
