@@ -78,8 +78,9 @@ main(int argc, char ** argv)
 
         prog->link();
 
-        prog->uniform("MVP");
-        prog->attrib("vPos");
+        prog->uniform( "MVP");
+        prog->uniform("time");
+        prog->attrib( "vPos");
 
         engine.scr().set_title("Cells");
         engine.use_program(       prog);
@@ -125,6 +126,11 @@ main(int argc, char ** argv)
         engine.look_at(0.f, 0.f, 10.f,
                        0.f, 0.f,  0.f,
                                   1.f);
+
+        engine.callback() = [](Renderable & e, const double & d) {
+           RenderEngine<PixelatedScr> & engine = (RenderEngine<PixelatedScr> &)e;
+           glUniform1f( engine.prog()["time"], glfwGetTime() );
+        };
 
         engine.draw_loop();
     } catch(const char * msg) {

@@ -1,6 +1,7 @@
 #version 330 core
 
 uniform usampler2DArray terrain;
+uniform float              time;
 out vec4 color;
 
 #define TERRAIN_SHADE vec4(0.75, 0.56, 0.34, 1.0)
@@ -12,7 +13,10 @@ void main() {
 
     if(texel.g > 0)
     {
-        float amp = texel.g / 10.0;
-        color.rgb = mix(color.rgb, ENERGY_SHADE * amp, amp);
+        float offset = uint(gl_FragCoord.x + gl_FragCoord.y) % 10u / 10.f;
+        float glow   = abs( fract(time/4.f + offset) - .5f ) * 2;
+        float amp    = glow * texel.g / 10.f;
+
+        color.rgb    = mix(color.rgb, ENERGY_SHADE, amp);
     }
 }
