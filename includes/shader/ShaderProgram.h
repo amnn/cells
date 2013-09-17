@@ -12,6 +12,8 @@ namespace engine {
 class ShaderProgram
 {
 
+    static GLuint _usedProg;
+
     GLuint _id;
     std::unordered_map<std::string, GLint> _syms;
 

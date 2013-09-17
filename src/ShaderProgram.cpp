@@ -72,9 +72,17 @@ throw(const char *)
 }
 
 void
-ShaderProgram::use() const { glUseProgram(_id); }
+ShaderProgram::use() const
+{
+    if(_usedProg == _id) return;
+
+    _usedProg =  _id;
+    glUseProgram(_id);
+}
 
 const GLuint
 ShaderProgram::id()  const {        return _id; }
+
+GLuint ShaderProgram::_usedProg { 0 };
 
 }; // namespace engine
