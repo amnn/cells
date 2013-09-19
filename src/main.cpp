@@ -92,17 +92,18 @@ main(int argc, char ** argv)
             {width, height}
         };
 
-        unique_ptr<GLuint[]> terrain { new GLuint[iW * iH] },
-                             energy  { new GLuint[iW * iH] };
+        unique_ptr<GLuint[]> terrain    { new GLuint[iW * iH] },
+                             energy     { new GLuint[iW * iH] },
+                             population { new GLuint[iW * iH] };
 
         unsigned int seed = Noise::perlin<1,6>( iW, iH, terrain);
-        Noise::diffuse<3,0>(               iW, iH, 5, energy, 7);
+        Noise::diffuse<3,0>(         iW, iH, 5, energy, 7, seed);
         auto texture_data = interleave(terrain, energy, iW * iH);
 
         cout << "Using seed: " << seed << endl;
 
         Texture3D *pSimState = new Texture3D(GL_TEXTURE_2D_ARRAY, 1,
-                                               GL_RG32UI, iW, iH, 2);
+                                               GL_RG32UI, iW, iH, 9);
 
         shared_ptr<Texture> simState(pSimState);
 
@@ -113,6 +114,12 @@ main(int argc, char ** argv)
 
         pSimState->sub_image( 0, 0, 0, 0, iW, iH, 1, GL_RG_INTEGER,
                                GL_UNSIGNED_INT, texture_data.get() );
+
+        for(int i = 1; i <= 8; ++i)
+        {
+            Noise::diffuse<3,0>(iW, iH, 6, population, 4);
+            pSimState->sub_image(0, 0, 0, i, iW, iH, 1, GL_RED_INTEGER, GL_UNSIGNED_INT, population.get() );
+        }
 
         auto v        = make_shared<Buffer>(             GL_ARRAY_BUFFER,
                                                 4, verts, GL_STATIC_DRAW);
