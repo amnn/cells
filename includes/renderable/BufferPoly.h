@@ -193,8 +193,6 @@ public:
     friend class Instance;
 };
 
-GLuint BufferPoly::_currentBinding = 0;
-
 }; // namespace Engine
 
 #endif

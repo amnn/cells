@@ -94,8 +94,6 @@ public:
 
 };
 
-std::unordered_map<GLenum, GLuint> Buffer::_bindings {};
-
 }; // namespace Engine
 
 #endif
