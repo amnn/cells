@@ -5,7 +5,7 @@
 
 #include "renderable/RenderEngine.h"
 
-namespace engine {
+namespace Engine {
 
 class GLFWScr {
 
@@ -31,6 +31,6 @@ protected:
 
 };
 
-}; // namespace engine
+}; // namespace Engine
 
 #endif

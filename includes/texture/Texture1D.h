@@ -5,7 +5,7 @@
 
 #include "texture/Texture.h"
 
-namespace engine {
+namespace Engine {
 
 class Texture1D : public Texture {
 
@@ -62,6 +62,6 @@ public:
     { glTexSubImage1D(_target, level, x, w, dFmt, type, data); }
 };
 
-}; // namespace engine
+}; // namespace Engine
 
 #endif

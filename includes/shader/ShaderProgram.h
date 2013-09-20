@@ -7,7 +7,7 @@
 
 #include "shader/Shader.h"
 
-namespace engine {
+namespace Engine {
 
 class ShaderProgram
 {
@@ -44,6 +44,6 @@ public:
     const GLuint    id()  const;
 };
 
-}; // namespace engine
+}; // namespace Engine
 
 #endif

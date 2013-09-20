@@ -13,7 +13,7 @@
 #include "shader/ShaderProgram.h"
 #include "texture/Texture.h"
 
-namespace engine {
+namespace Engine {
 
 class BufferPoly
 {
@@ -195,6 +195,6 @@ public:
 
 GLuint BufferPoly::_currentBinding = 0;
 
-}; // namespace engine
+}; // namespace Engine
 
 #endif

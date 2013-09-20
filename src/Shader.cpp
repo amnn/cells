@@ -6,7 +6,7 @@
 
 #include "shader/Shader.h"
 
-namespace engine {
+namespace Engine {
 
 void
 Shader::read(const char * loc, std::string & buff)
@@ -81,4 +81,4 @@ throw(const char *)
 void
 Shader::attach(GLuint prog) const { glAttachShader(prog, _id); }
 
-}; // namespace engine
+}; // namespace Engine

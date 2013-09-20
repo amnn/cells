@@ -9,7 +9,7 @@
 
 #include "shader/ShaderProgram.h"
 
-namespace engine {
+namespace Engine {
 
 ShaderProgram::ShaderProgram(ShaderProgram &&that)
 {
@@ -85,4 +85,4 @@ ShaderProgram::id()  const {        return _id; }
 
 GLuint ShaderProgram::_usedProg { 0 };
 
-}; // namespace engine
+}; // namespace Engine

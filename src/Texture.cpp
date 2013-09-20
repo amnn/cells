@@ -5,7 +5,7 @@
 
 #include "texture/Texture.h"
 
-namespace engine {
+namespace Engine {
 
 std::unordered_map<GLenum, GLuint> Texture::_bindings {};
 
@@ -57,4 +57,4 @@ Texture::bind() const {
 GLenum Texture::target() const { return _target; };
 GLuint Texture::id()     const { return     _id; };
 
-}; // namespace engine
+}; // namespace Engine

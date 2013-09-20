@@ -3,7 +3,7 @@
 
 #include <unordered_map>
 
-namespace engine {
+namespace Engine {
 
 class Texture
 {
@@ -41,7 +41,7 @@ protected:
     Texture(GLenum, GLint);
 };
 
-}; // namespace engine
+}; // namespace Engine
 
 #include "Texture1D.h"
 #include "Texture2D.h"

@@ -8,7 +8,7 @@
 
 #define SF 4
 
-namespace engine {
+namespace Engine {
 
 void
 PixelatedScr::window_moved(GLFWwindow *win, int x, int y) {
@@ -103,4 +103,4 @@ PixelatedScr::display_link(RenderEngine<PixelatedScr> * engine) const
          );
 }
 
-}; // namespace engine
+}; // namespace Engine

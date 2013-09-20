@@ -5,7 +5,7 @@
 
 #include "shader/ShaderProgram.h"
 
-namespace engine {
+namespace Engine {
 
 class Renderable
 {
@@ -61,6 +61,6 @@ protected:
 
 };
 
-}; // namespace engine
+}; // namespace Engine
 
 #endif

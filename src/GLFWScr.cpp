@@ -6,7 +6,7 @@
 
 #include "screen/GLFWScr.h"
 
-namespace engine {
+namespace Engine {
 
 GLFWScr::GLFWScr(int width, int height) throw(const char *)
 {
@@ -89,4 +89,4 @@ GLFWScr::swap() const
     glfwPollEvents();
 }
 
-}; // namespace engine
+}; // namespace Engine

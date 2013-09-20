@@ -5,7 +5,7 @@
 
 #include "GL_includes.h"
 
-namespace engine {
+namespace Engine {
 
 class Buffer {
     static std::unordered_map< GLenum, GLuint > _bindings;
@@ -96,6 +96,6 @@ public:
 
 std::unordered_map<GLenum, GLuint> Buffer::_bindings {};
 
-}; // namespace engine
+}; // namespace Engine
 
 #endif

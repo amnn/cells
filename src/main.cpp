@@ -18,7 +18,7 @@
 #include "texture/Texture.h"
 
 using namespace    std;
-using namespace engine;
+using namespace Engine;
 
 namespace {
     struct xy {

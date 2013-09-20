@@ -5,7 +5,7 @@
 
 #include "screen/GLFWScr.h"
 
-namespace engine {
+namespace Engine {
 
 class PixelatedScr : public GLFWScr {
 
@@ -22,6 +22,6 @@ public:
     void display_link(RenderEngine<PixelatedScr> *) const;
 };
 
-}; // namespace engine
+}; // namespace Engine
 
 #endif

@@ -10,7 +10,7 @@
 #include "renderable/Renderable.h"
 #include "shader/ShaderProgram.h"
 
-namespace engine {
+namespace Engine {
 
 class RenderGroup : public Renderable
 {
@@ -38,6 +38,6 @@ public:
 
 };
 
-}; // namespace engine
+}; // namespace Engine
 
 #endif

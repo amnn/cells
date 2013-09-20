@@ -27,7 +27,7 @@ namespace {
     };
 };
 
-namespace engine {
+namespace Engine {
 
 class Noise {
     template <class T>
@@ -177,6 +177,6 @@ public:
     }
 };
 
-}; // namespace engine
+}; // namespace Engine
 
 #endif
