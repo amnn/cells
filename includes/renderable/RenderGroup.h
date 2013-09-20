@@ -31,7 +31,8 @@ public:
     RenderGroup             (RenderGroup &&);
     RenderGroup & operator= (RenderGroup &&);
 
-    void add_child(std::shared_ptr<Renderable> &);
+    void add_child(std::shared_ptr<Renderable>  &);
+    void add_child(std::shared_ptr<Renderable> &&);
 
     void         tick(                            const double &);
     virtual void render(const ShaderProgram &, const glm::mat4 &) const;

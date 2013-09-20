@@ -33,6 +33,12 @@ RenderGroup::add_child(std::shared_ptr<Renderable> & pChild)
 }
 
 void
+RenderGroup::add_child(std::shared_ptr<Renderable> && pChild)
+{
+    children.emplace_back(pChild);
+}
+
+void
 RenderGroup::tick(const double & delta)
 {
     Renderable::tick(delta);

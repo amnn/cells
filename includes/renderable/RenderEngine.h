@@ -85,6 +85,13 @@ public:
     }
 
     void
+    use_program(std::shared_ptr<ShaderProgram> && p)
+    {
+      _prog = p;
+      _prog->use();
+    }
+
+    void
     look_at
     (
       float cX, float cY, float cZ,
