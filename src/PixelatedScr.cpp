@@ -62,10 +62,7 @@ PixelatedScr::~PixelatedScr() {
 void
 PixelatedScr::display_link(RenderEngine<PixelatedScr> * engine) const
 {
-    double last  = glfwGetTime(),
-           acc,
-           now,
-           delta;
+    double last  = glfwGetTime();
 
     static const double TICK_STEP = 1.0/60;
 
@@ -85,8 +82,8 @@ PixelatedScr::display_link(RenderEngine<PixelatedScr> * engine) const
 
         swap();
 
-        now   = glfwGetTime();
-        delta =    now - last;
+        double now   = glfwGetTime(),
+               delta =    now - last;
 
         while(delta >= 0) {
             engine->tick( std::min(delta, TICK_STEP) );
