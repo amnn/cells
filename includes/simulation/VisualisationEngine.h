@@ -13,7 +13,7 @@
 
 namespace Simulation {
 
-class VisualisationEngine : public Engine::RenderEngine<Engine::PixelatedScr>
+class VisualisationEngine : public Engine::RenderEngine
 {
 public:
 

@@ -16,14 +16,12 @@
 
 namespace Engine {
 
-template< class Scr >
 class RenderEngine : public RenderGroup
 {
 
     bool                             _term;
     std::mutex                     _access;
     std::vector<std::thread>          _aux;
-    Scr                            _screen;
     std::shared_ptr<ShaderProgram>   _prog;
     glm::mat4                        _proj;
 
@@ -31,7 +29,6 @@ class RenderEngine : public RenderGroup
     throw(const char *)
     : RenderGroup               (),
       _term              { false },
-      _screen ( (int)_w, (int)_h ),
       _proj                { 1.f }
     {}
 
@@ -68,7 +65,6 @@ public:
     }
 
     std::vector< std::thread > & aux()        { return    _aux; }
-    Scr                        & scr()        { return _screen; }
     bool                       & term()       { return   _term; }
     const ShaderProgram        & prog() const { return  *_prog; }
 

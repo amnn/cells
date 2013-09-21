@@ -9,7 +9,7 @@ class LockStepLink
 
 public:
     template <class Scr>
-    void operator()(RenderEngine<Scr> & engine, Scr & screen)
+    void operator()(RenderEngine & engine, Scr & screen)
     {
         double last = glfwGetTime();
 

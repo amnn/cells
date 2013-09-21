@@ -7,8 +7,9 @@
 
 #include "GL_includes.h"
 
-#include "simulation/VisualisationEngine.h"
 #include "display_link/LockStepLink.h"
+#include "screen/PixelatedScr.h"
+#include "simulation/VisualisationEngine.h"
 
 using namespace std;
 
@@ -22,9 +23,11 @@ main(int argc, char ** argv)
 
     try {
         Engine::LockStepLink            link;
-        Simulation::VisualisationEngine engine { width, height };
+        Engine::PixelatedScr            screen { int(width), int(height) };
+        Simulation::VisualisationEngine engine { width,           height };
 
-        link( engine, engine.scr() );
+        screen.set_title("Cells");
+        link(engine, screen);
     } catch(const char * msg) {
         cout << "Error: " << msg << endl;
     }

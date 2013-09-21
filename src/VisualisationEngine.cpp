@@ -71,12 +71,10 @@ VisualisationEngine::VisualisationEngine(
     float w,
     float h
 )
-: Engine::RenderEngine<Engine::PixelatedScr>(w, h, 0.1f, 100.f)
+: Engine::RenderEngine(w, h, 0.1f, 100.f)
 {
     use_program(  create_program() );
     add_child( create_canvas(w, h) );
-
-    scr().set_title(        "Cells");
 
     callback() = VisualisationEngine::tick_callback;
 }

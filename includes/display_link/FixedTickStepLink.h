@@ -9,7 +9,7 @@ class FixedTickStepLink
 
 public:
     template <class Scr>
-    void operator()(RenderEngine<Scr> & engine, Scr & screen)
+    void operator()(RenderEngine & engine, Scr & screen)
     {
         double last                   = glfwGetTime();
         static const double TICK_STEP = 1.0/60.f;

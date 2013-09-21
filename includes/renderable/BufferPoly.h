@@ -101,10 +101,10 @@ public:
 
     };
 
-    template <class LFun, class Scr>
+    template <class LFun>
     BufferPoly
     (
-          const RenderEngine<Scr> & eng,
+          const RenderEngine      & eng,
           std::shared_ptr<Buffer> & v,
           LFun                      layout,
           GLsizei                   num,
@@ -124,10 +124,10 @@ public:
         add_array(    eng, v, layout);
     }
 
-    template <class LFun, class Scr>
+    template <class LFun>
     BufferPoly
     (
-          const RenderEngine<Scr> & eng,
+          const RenderEngine      & eng,
           std::shared_ptr<Buffer> & v,
           LFun                      layout,
           std::shared_ptr<Buffer> & e,
@@ -160,11 +160,11 @@ public:
         glBindVertexArray(_vaoID);
     };
 
-    template <class LFun, class Scr>
+    template <class LFun>
     void
     add_array
     (
-        const RenderEngine<Scr> & eng,
+        const RenderEngine      & eng,
         std::shared_ptr<Buffer> & v,
         LFun                      layout
     )
