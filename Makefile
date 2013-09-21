@@ -1,4 +1,4 @@
-CC         = g++-4.7 --std=c++0x
+CC         = g++-4.9 --std=c++11
 GLEW 	   = `pkg-config --static --libs glew`
 GLFW 	   = `pkg-config --static --libs glfw3`
 DEST 	   = bin/cells
