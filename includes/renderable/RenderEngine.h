@@ -31,7 +31,7 @@ class RenderEngine : public RenderGroup
     throw(const char *)
     : RenderGroup               (),
       _term              { false },
-      _screen { (int)_w, (int)_h },
+      _screen ( (int)_w, (int)_h ),
       _proj                { 1.f }
     {}
 
