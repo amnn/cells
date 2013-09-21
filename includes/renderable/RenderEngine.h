@@ -19,17 +19,21 @@ namespace Engine {
 class RenderEngine : public RenderGroup
 {
 
-    bool                             _term;
-    std::mutex                     _access;
-    std::vector<std::thread>          _aux;
-    std::shared_ptr<ShaderProgram>   _prog;
-    glm::mat4                        _proj;
+    bool                            _term;
+    std::mutex                      _access;
+    std::vector<std::thread>        _aux;
+    std::shared_ptr<ShaderProgram>  _prog;
+    glm::mat4                       _proj;
+    GLsizei                         _width,
+                                    _height;
 
     RenderEngine(float _w, float _h)
     throw(const char *)
-    : RenderGroup               (),
-      _term              { false },
-      _proj                { 1.f }
+    : RenderGroup (),
+      _term       { false },
+      _proj       { 1.f },
+      _width      { int(_w) },
+      _height     { int(_h) }
     {}
 
 public:
@@ -67,6 +71,8 @@ public:
     std::vector< std::thread > & aux()        { return    _aux; }
     bool                       & term()       { return   _term; }
     const ShaderProgram        & prog() const { return  *_prog; }
+    GLsizei                      width()      { return  _width; }
+    GLsizei                      height()     { return _height; }
 
     void thrd_req()  {           _access.lock(  ); }
     void thrd_rel()  {           _access.unlock(); }
