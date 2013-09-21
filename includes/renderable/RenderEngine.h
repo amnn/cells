@@ -75,8 +75,6 @@ public:
     void thrd_req()  {           _access.lock(  ); }
     void thrd_rel()  {           _access.unlock(); }
 
-    void draw_loop() { _screen.display_link(this); }
-
     void
     use_program(std::shared_ptr<ShaderProgram> & p)
     {

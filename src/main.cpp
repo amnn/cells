@@ -8,6 +8,7 @@
 #include "GL_includes.h"
 
 #include "simulation/VisualisationEngine.h"
+#include "display_link/LockStepLink.h"
 
 using namespace std;
 
@@ -20,8 +21,10 @@ main(int argc, char ** argv)
           height = strtof(argv[2], nullptr);
 
     try {
+        Engine::LockStepLink            link;
         Simulation::VisualisationEngine engine { width, height };
-        engine.draw_loop();
+
+        link( engine, engine.scr() );
     } catch(const char * msg) {
         cout << "Error: " << msg << endl;
     }

@@ -21,9 +21,10 @@ public:
     GLFWScr &operator= (GLFWScr       &&) { return *this; }
 
     void set_title(              const char *) const;
-    void display_link(RenderEngine<GLFWScr> *) const;
 
     void swap() const;
+
+    bool should_close_window();
 
 protected:
 

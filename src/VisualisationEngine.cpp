@@ -3,11 +3,11 @@
 
 #include "GL_includes.h"
 
+#include "screen/PixelatedScr.h"
 #include "renderable/Renderable.h"
 #include "renderable/RenderEngine.h"
 #include "renderable/BufferPoly.h"
 #include "texture/Texture.h"
-#include "screen/PixelatedScr.h"
 #include "shader/ShaderProgram.h"
 #include "buffer/Buffer.h"
 #include "noise/Noise.h"

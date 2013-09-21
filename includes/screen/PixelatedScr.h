@@ -19,7 +19,8 @@ public:
     PixelatedScr(int, int) throw(const char *);
     ~PixelatedScr();
 
-    void display_link(RenderEngine<PixelatedScr> *) const;
+    void swap() const;
+
 };
 
 }; // namespace Engine

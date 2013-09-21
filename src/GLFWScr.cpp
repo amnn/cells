@@ -51,39 +51,18 @@ GLFWScr::set_title(const char *title) const
 }
 
 void
-GLFWScr::display_link(RenderEngine<GLFWScr> *engine) const
-{
-    double last  = glfwGetTime();
-
-    static const double TICK_STEP = 1.0/60;
-
-    do {
-        engine->thrd_req();
-        engine->render(  );
-
-        swap();
-
-        double now   = glfwGetTime(),
-               delta =    now - last;
-
-        while(delta >= 0) {
-            engine->tick( std::min(delta, TICK_STEP) );
-            delta -= TICK_STEP;
-        }
-
-        last = glfwGetTime();
-        engine->thrd_rel();
-    }
-    while( glfwGetKey(_win, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
-           !glfwWindowShouldClose(_win)
-         );
-}
-
-void
 GLFWScr::swap() const
 {
     glfwSwapBuffers(_win);
     glfwPollEvents();
+}
+
+bool
+GLFWScr::should_close_window()
+{
+    return
+        glfwGetKey(_win, GLFW_KEY_ESCAPE) == GLFW_PRESS ||
+        glfwWindowShouldClose(_win);
 }
 
 }; // namespace Engine

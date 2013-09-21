@@ -5,10 +5,10 @@
 
 #include "GL_includes.h"
 
+#include "screen/PixelatedScr.h"
 #include "renderable/Renderable.h"
 #include "renderable/RenderEngine.h"
 #include "renderable/BufferPoly.h"
-#include "screen/PixelatedScr.h"
 #include "shader/ShaderProgram.h"
 
 namespace Simulation {

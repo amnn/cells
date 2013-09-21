@@ -60,44 +60,19 @@ PixelatedScr::~PixelatedScr() {
 }
 
 void
-PixelatedScr::display_link(RenderEngine<PixelatedScr> * engine) const
+PixelatedScr::swap() const
 {
-    double last  = glfwGetTime();
+    glBindFramebuffer(   GL_DRAW_FRAMEBUFFER, 0);
+    glDrawBuffer(                       GL_BACK);
 
-    static const double TICK_STEP = 1.0/60;
+    glBlitFramebuffer(       0, 0,    _w,    _h,
+                             0, 0, SF*_w, SF*_h,
+      GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT,
+                                     GL_NEAREST);
 
-    do {
-        glBindFramebuffer(GL_FRAMEBUFFER, _loResFBO);
+    GLFWScr::swap();
 
-        engine->thrd_req();
-        engine->render(  );
-
-        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-        glDrawBuffer(                    GL_BACK);
-
-        glBlitFramebuffer(                       0, 0,    _w,    _h,
-                                                 0, 0, SF*_w, SF*_h,
-                          GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT,
-                                                         GL_NEAREST);
-
-        swap();
-
-        double now   = glfwGetTime(),
-               delta =    now - last;
-
-        while(delta >= 0) {
-            engine->tick( std::min(delta, TICK_STEP) );
-            delta -= TICK_STEP;
-        }
-
-        last = glfwGetTime();
-
-        engine->thrd_rel();
-
-    }
-    while( glfwGetKey(_win, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
-           !glfwWindowShouldClose(_win)
-         );
+    glBindFramebuffer(GL_FRAMEBUFFER, _loResFBO);
 }
 
 }; // namespace Engine
