@@ -33,8 +33,8 @@ namespace {
     interleave(
         std::unique_ptr<T[]> &  xs,
         std::unique_ptr<T[]> &  ys,
-        size_t                 count,
-        size_t                 stride = 1
+        size_t                  count,
+        size_t                  stride = 1
     )
     {
         size_t               len { count * (stride + 1) };
