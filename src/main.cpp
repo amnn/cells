@@ -22,12 +22,12 @@ main(int argc, char ** argv)
           height = strtof(argv[2], nullptr);
 
     try {
-        Engine::LockStepLink            link;
         Engine::PixelatedScr            screen { int(width), int(height) };
         Simulation::VisualisationEngine engine { width,           height };
+        Engine::LockStepLink<Engine::PixelatedScr> link { engine, screen };
 
         screen.set_title("Cells");
-        link(engine, screen);
+        link.draw_loop();
     } catch(const char * msg) {
         cout << "Error: " << msg << endl;
     }

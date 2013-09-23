@@ -1,18 +1,25 @@
 #include "GL_includes.h"
 
+#include "display_link/DisplayLink.h"
+
 #include "renderable/RenderEngine.h"
 
 namespace Engine {
 
-class FixedTickStepLink
+template <class Scr>
+class FixedTickStepLink : public DisplayLink<Scr>
 {
-
 public:
-    template <class Scr>
-    void operator()(RenderEngine & engine, Scr & screen)
+
+    using DisplayLink<Scr>::DisplayLink;
+
+    void draw_loop()
     {
         double last                   = glfwGetTime();
         static const double TICK_STEP = 1.0/60.f;
+
+        RenderEngine & engine = this->_engine;
+        Scr          & screen = this->_screen;
 
         do {
             engine.thrd_req();
