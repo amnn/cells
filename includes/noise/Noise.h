@@ -2,7 +2,7 @@
 #define NOISE_H
 
 #include <iostream>
-#include <memory>
+#include <vector>
 #include <chrono>
 #include <random>
 #include <cstring>
@@ -41,12 +41,12 @@ class Noise {
     static void
     octave
     (
-        GLsizei                      w,
-        GLsizei                      h,
-        std::unique_ptr<grad_t[]> &  grads,
-        std::unique_ptr<GLuint[]> &  buff,
-        int                          N,
-        int                          sf
+        GLsizei               w,
+        GLsizei               h,
+        std::vector<grad_t> & grads,
+        std::vector<GLuint> & buff,
+        int                   N,
+        int                   sf
     )
     {
         GLsizei gW = w / N + 1;
@@ -89,17 +89,16 @@ class Noise {
         );
     }
 
-    static std::unique_ptr<grad_t[]>
+    static std::vector<grad_t>
     gradient_grid(GLsizei w, GLsizei h, unsigned int seed)
     {
         std::default_random_engine         generator(   seed);
         std::uniform_int_distribution<int> distribution(0, 7);
 
-        auto grads = std::unique_ptr<grad_t[]>( new grad_t[w * h] );
+        std::vector<grad_t> grads(w * h);
 
-        for(int y = 0; y < h; ++y)
-        for(int x = 0; x < w; ++x)
-            grads[y*w + x] = gradients[ distribution(generator) ];
+        for(auto & g : grads)
+            g = gradients[distribution(generator)];
 
         return grads;
     }
@@ -108,10 +107,10 @@ public:
     template <int P = 3, int UB = 0>
     static unsigned int
     perlin(
-        GLsizei                      w,
-        GLsizei                      h,
-        std::unique_ptr<GLuint[]> &  buff,
-        unsigned int                 seed = 0
+        GLsizei                  w,
+        GLsizei                  h,
+        std::vector<GLuint> & buff,
+        unsigned int          seed = 0
     )
     {
         if(!seed) seed = generate_seed();
@@ -124,7 +123,7 @@ public:
 
         auto grads = gradient_grid(gW, gH, seed);
 
-        memset(buff.get(), 0, w * h * sizeof(GLuint) );
+        buff = std::vector<GLuint>(w * h);
 
         int sf10 = 10, sf = 1, sum = 0;
         while(N != M && N < w && N < h)
@@ -137,9 +136,7 @@ public:
             sf10 = sf10 << 1;
         }
 
-        for(int y = 0; y < h; ++y)
-        for(int x = 0; x < w; ++x)
-            buff[y * w + x] = buff[y * w + x] / sum;
+        for(auto & x : buff) x /= sum;
 
         return seed;
     }
@@ -147,12 +144,12 @@ public:
     template <int P = 3, int UB = 0>
     static unsigned int
     diffuse(
-        GLsizei                      w,
-        GLsizei                      h,
-        unsigned int                 max_ratio,
-        std::unique_ptr<GLuint[]> &  buff,
-        unsigned int                 floor = 0,
-        unsigned int                 seed  = 0
+        GLsizei               w,
+        GLsizei               h,
+        unsigned int          max_ratio,
+        std::vector<GLuint> & buff,
+        unsigned int          floor = 0,
+        unsigned int          seed  = 0
     )
     {
         seed = perlin<P,UB>(w, h, buff, seed);

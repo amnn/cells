@@ -1,5 +1,6 @@
 #include <iostream>
 #include <memory>
+#include <vector>
 
 #include "GL_includes.h"
 
@@ -29,27 +30,33 @@ namespace {
     };
 
     template <class T>
-    std::unique_ptr<T[]>
+    std::vector<T>
     interleave(
-        std::unique_ptr<T[]> &  xs,
-        std::unique_ptr<T[]> &  ys,
-        size_t                  count,
-        size_t                  stride = 1
+        std::vector<T> & xs,
+        std::vector<T> & ys,
+        size_t           stride = 1
     )
     {
-        size_t               len { count * (stride + 1) };
-        std::unique_ptr<T[]> zs            { new T[len] };
+        std::vector<T> zs( xs.size() + ys.size() );
 
-        int i = 0, j = 0;
-        for(int k = 0; k < len; k += stride+1)
-        {
-            int l;
-            for(l = 0; l < stride; ++l) zs[k+l] = xs[i+l];
+        auto itx = xs.begin(),
+             ity = ys.begin();
 
-            zs[k+l] = ys[j];
-            i += stride;
-            ++j;
-        }
+        for
+        (
+            int k =  0;
+
+            k     <  zs.capacity() &&
+            itx   != xs.end()      &&
+            ity   != ys.end();
+
+            k     += stride+1
+        )
+            for(int l = 0; l <= stride; ++l)
+                zs[k+l] = *(l == stride ? ity : itx)++;
+
+        for(; itx != xs.end(); ++itx) zs.push_back(*itx);
+        for(; ity != ys.end(); ++ity) zs.push_back(*ity);
 
         return zs;
     }
@@ -103,20 +110,21 @@ VisualisationEngine::create_canvas(float w, float h)
         { w/2,  h/2}
     };
 
-    int iW = static_cast<int>(w),
-        iH = static_cast<int>(h);
+    int iW  = static_cast<int>(w),
+        iH  = static_cast<int>(h),
+        dim =             iW * iH;
 
     auto vBuff     = std::make_shared<Engine::Buffer>(GL_ARRAY_BUFFER, 4, verts, GL_STATIC_DRAW);
     auto quadPoly  = std::make_shared<Engine::BufferPoly>(        *this, vBuff, xy_t::layout, 4);
 
     // DEMO DATA ONLY, will feed from SimulationEngine::_publicState in future.
-    std::unique_ptr<GLuint[]> terrain    { new GLuint[iW * iH] },
-                              energy     { new GLuint[iW * iH] },
-                              population { new GLuint[iW * iH] };
+    std::vector<GLuint> terrain    (dim),
+                        energy     (dim),
+                        population (dim);
 
     unsigned int seed = Engine::Noise::perlin<1,6>(iW, iH, terrain);
     Engine::Noise::diffuse<3,0>(        iW, iH, 5, energy, 7, seed);
-    auto texture_data = interleave(       terrain, energy, iW * iH);
+    auto texture_data = interleave(                terrain, energy);
 
     std::cout << "Using seed: " << seed << std::endl;
 
@@ -129,12 +137,12 @@ VisualisationEngine::create_canvas(float w, float h)
     pSimState->param(GL_TEXTURE_WRAP_T,        GL_CLAMP_TO_EDGE);
 
     pSimState->sub_image( 0, 0, 0, 0, iW, iH, 1, GL_RG_INTEGER,
-                           GL_UNSIGNED_INT, texture_data.get() );
+                         GL_UNSIGNED_INT, texture_data.data() );
 
     for(int i = 1; i <= 8; ++i)
     {
         Engine::Noise::diffuse<3,0>(iW, iH, 6, population, 4);
-        pSimState->sub_image(0, 0, 0, i, iW, iH, 1, GL_RED_INTEGER, GL_UNSIGNED_INT, population.get() );
+        pSimState->sub_image(0, 0, 0, i, iW, iH, 1, GL_RED_INTEGER, GL_UNSIGNED_INT, population.data() );
     }
 
     return std::shared_ptr<Engine::Renderable>( new Engine::BufferPoly::TextureInstance(quadPoly, simState) );
