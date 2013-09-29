@@ -21,9 +21,14 @@ main(int argc, char ** argv)
     float width  = strtof(argv[1], nullptr),
           height = strtof(argv[2], nullptr);
 
+    int   iW     = int( width),
+          iH     = int(height);
+
     try {
-        Engine::PixelatedScr            screen { int(width), int(height) };
-        Simulation::VisualisationEngine engine { width,           height };
+        Engine::PixelatedScr            screen     { iW, iH };
+        Simulation::Simulation          simulation { iW, iH, {"1", "2", "3"} };
+        Simulation::VisualisationEngine engine     { simulation };
+
         Engine::LockStepLink<Engine::PixelatedScr> link { engine, screen };
 
         screen.set_title("Cells");
