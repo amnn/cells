@@ -24,41 +24,43 @@ class RenderEngine : public RenderGroup
     std::vector<std::thread>        _aux;
     std::shared_ptr<ShaderProgram>  _prog;
     glm::mat4                       _proj;
-    GLsizei                         _width,
+    float                           _width,
                                     _height;
 
-    RenderEngine(float _w, float _h)
+    RenderEngine(float w, float h)
     throw(const char *)
-    : RenderGroup (),
-      _term       { false },
-      _proj       { 1.f },
-      _width      { int(_w) },
-      _height     { int(_h) }
+        : RenderGroup ()
+        , _term       { false }
+        , _proj       { 1.f }
+        , _width      { w }
+        , _height     { h }
     {}
 
 public:
 
     RenderEngine
     (
-      float _w,
-      float _h,
+      float w,
+      float h,
       float fov,
       float ncp,
       float fcp
-    ) : RenderEngine(_w, _h)
+    )
+        : RenderEngine(w, h)
     {
-        _proj  = glm::perspective(fov, _w/_h, ncp, fcp);
+        _proj  = glm::perspective(fov, w/h, ncp, fcp);
     }
 
     RenderEngine
     (
-      float  _w,
-      float  _h,
+      float  w,
+      float  h,
       float ncp,
       float fcp
-    ) : RenderEngine(_w, _h)
+    )
+        : RenderEngine(w, h)
     {
-        _proj  = glm::ortho(0.f, _w, 0.f, _h, ncp, fcp);
+        _proj  = glm::ortho(0.f, w, 0.f, h, ncp, fcp);
     }
 
     ~RenderEngine()
@@ -68,14 +70,14 @@ public:
         for(std::thread & th : _aux) th.join();
     }
 
-    std::vector< std::thread > & aux()        { return    _aux; }
-    bool                       & term()       { return   _term; }
-    const ShaderProgram        & prog() const { return  *_prog; }
-    GLsizei                      width()      { return  _width; }
-    GLsizei                      height()     { return _height; }
+    std::vector< std::thread > & aux()          { return    _aux; }
+    bool                       & term()         { return   _term; }
+    const ShaderProgram        & prog()   const { return  *_prog; }
+    float                        width()  const { return  _width; }
+    float                        height() const { return _height; }
 
-    void thrd_req()  {           _access.lock(  ); }
-    void thrd_rel()  {           _access.unlock(); }
+    void thrd_req()  { _access.lock(  ); }
+    void thrd_rel()  { _access.unlock(); }
 
     void
     use_program(std::shared_ptr<ShaderProgram> & p)
