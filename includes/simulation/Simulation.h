@@ -35,6 +35,12 @@ public:
         return _simEngine;
     }
 
+    const SimState &
+    state() const
+    {
+        return _state;
+    }
+
     std::shared_ptr<Engine::Texture> &
     public_state()
     {

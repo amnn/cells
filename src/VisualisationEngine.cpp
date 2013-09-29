@@ -51,7 +51,8 @@ VisualisationEngine::VisualisationEngine(
         static_cast<float>( sim.world_height() ),
         0.1f,
         100.f
-    )
+      )
+    , _sim { sim }
 {
     use_program( create_program() );
     add_child( create_canvas(sim) );

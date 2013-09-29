@@ -16,6 +16,9 @@ namespace Simulation {
 
 class VisualisationEngine : public Engine::RenderEngine
 {
+
+    Simulation & _sim;
+
 public:
 
     VisualisationEngine(Simulation &);
