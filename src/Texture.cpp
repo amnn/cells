@@ -10,8 +10,11 @@ namespace Engine {
 std::unordered_map<GLenum, GLuint> Texture::_bindings {};
 
 Texture::Texture(GLenum target, GLint fmt)
-: _target { target }, _fmt { fmt }
-{ glGenTextures(1, &_id); bind(); }
+    : _target { target }
+    , _fmt    { fmt }
+{
+    glGenTextures(1, &_id); bind();
+}
 
 Texture::Texture(GLenum target) : Texture(target, 0) {}
 

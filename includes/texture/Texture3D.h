@@ -22,8 +22,13 @@ public:
 		GLsizei  h,
 		GLsizei  d
 	)
-	: Texture(target, fmt), _w { w }, _h { h }, _d { d }
-	{ glTexStorage3D(target, levels, fmt, w, h, d); }
+		: Texture(target, fmt)
+		, _w   	 { w }
+		, _h  	 { h }
+		, _d     { d }
+	{
+		glTexStorage3D(target, levels, fmt, w, h, d);
+	}
 
 	template <class S>
 	Texture3D
@@ -38,8 +43,10 @@ public:
 		GLenum   type,
 		S *      data
 	)
-	: Texture3D(target, levels, fmt, w, h, d)
-	{ image(0, dFmt, type, data); }
+		: Texture3D(target, levels, fmt, w, h, d)
+	{
+		image(0, dFmt, type, data);
+	}
 
 	template <class S>
 	void
