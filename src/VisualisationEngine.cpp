@@ -52,7 +52,7 @@ VisualisationEngine::VisualisationEngine(
         0.1f,
         100.f
       )
-    , _sim { sim }
+    , _sim ( sim )
 {
     use_program( create_program() );
     add_child( create_canvas(sim) );
