@@ -29,14 +29,14 @@ public:
         , _state       ( w, h, l.size() )
     {};
 
-    const SimulationEngine &
-    engine() const
+    SimulationEngine &
+    engine()
     {
         return _simEngine;
     }
 
-    const SimState &
-    state() const
+    SimState &
+    state()
     {
         return _state;
     }
