@@ -1,3 +1,6 @@
+#ifndef LOCK_STEP_LINK_H
+#define LOCK_STEP_LINK_H
+
 #include "GL_includes.h"
 
 #include "display_link/DisplayLink.h"
@@ -39,3 +42,4 @@ public:
 
 };
 
+#endif
