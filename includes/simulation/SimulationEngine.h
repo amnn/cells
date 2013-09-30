@@ -11,16 +11,12 @@ namespace Simulation {
 
 class SimulationEngine : public Engine::RenderEngine
 {
-
 public:
     SimulationEngine(
-        GLsizei                             w,
-        GLsizei                             h,
-        std::initializer_list<const char *> l
-    )
-        : Engine::RenderEngine(w, h, 0.1f, 100.f)
-    {}
-
+        GLsizei,
+        GLsizei,
+        std::initializer_list<const char *>
+    );
 };
 
 }; // namespace Simulation

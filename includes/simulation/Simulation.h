@@ -19,45 +19,22 @@ class Simulation : public Engine::LockStepLink<SimState>
 
 public:
 
-    Simulation(
-        GLsizei w,
-        GLsizei h,
-        std::initializer_list<const char *> l
-    )
-        : LockStepLink (_engine, _state)
-        , _simEngine   ( w, h, l )
-        , _state       ( w, h, l.size() )
-    {};
+    Simulation(GLsizei, GLsizei, std::initializer_list<const char *>);
 
     SimulationEngine &
-    engine()
-    {
-        return _simEngine;
-    }
+    engine();
 
     SimState &
-    state()
-    {
-        return _state;
-    }
+    state();
 
     std::shared_ptr<Engine::Texture> &
-    public_state()
-    {
-        return _state.state();
-    }
+    public_state();
 
     int
-    world_width() const
-    {
-        return static_cast<int>( _simEngine.width() );
-    }
+    world_width() const;
 
     int
-    world_height() const
-    {
-        return static_cast<int>( _simEngine.height() );
-    }
+    world_height() const;
 };
 
 }; // namespace Simulation
