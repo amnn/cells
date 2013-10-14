@@ -22,6 +22,8 @@ public:
         Scr          & screen = this->_screen;
 
         do {
+            screen.setup();
+
             engine.thrd_req();
             engine.render(  );
 

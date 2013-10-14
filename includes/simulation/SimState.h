@@ -19,6 +19,7 @@ public:
     std::shared_ptr<Engine::Texture> &
     state();
 
+    void setup();
     void swap() const;
 
     bool

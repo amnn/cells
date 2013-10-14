@@ -60,6 +60,12 @@ PixelatedScr::~PixelatedScr() {
 }
 
 void
+PixelatedScr::setup()
+{
+  glBindFramebuffer(GL_FRAMEBUFFER, _loResFBO);
+}
+
+void
 PixelatedScr::swap() const
 {
     glBindFramebuffer(   GL_DRAW_FRAMEBUFFER, 0);
@@ -71,8 +77,6 @@ PixelatedScr::swap() const
                                      GL_NEAREST);
 
     GLFWScr::swap();
-
-    glBindFramebuffer(GL_FRAMEBUFFER, _loResFBO);
 }
 
 }; // namespace Engine

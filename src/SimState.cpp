@@ -60,6 +60,12 @@ SimState::state()
 }
 
 void
+SimState::setup()
+{
+    return;
+}
+
+void
 SimState::swap() const
 {
     return;

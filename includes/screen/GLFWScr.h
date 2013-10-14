@@ -20,7 +20,9 @@ public:
     GLFWScr            (GLFWScr       &&)                {}
     GLFWScr &operator= (GLFWScr       &&) { return *this; }
 
-    void set_title(              const char *) const;
+    void set_title(const char *) const;
+
+    void setup();
 
     void swap() const;
 

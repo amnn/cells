@@ -27,6 +27,8 @@ public:
             double now   = glfwGetTime(),
                    delta =    now - last;
 
+            screen.setup();
+
             engine.thrd_req();
             engine.render(  );
 

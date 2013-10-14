@@ -19,6 +19,8 @@ public:
     PixelatedScr(int, int) throw(const char *);
     ~PixelatedScr();
 
+    void setup();
+
     void swap() const;
 
 };

@@ -51,6 +51,12 @@ GLFWScr::set_title(const char *title) const
 }
 
 void
+GLFWScr::setup()
+{
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void
 GLFWScr::swap() const
 {
     glfwSwapBuffers(_win);
